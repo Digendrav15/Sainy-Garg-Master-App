@@ -120,7 +120,7 @@ export const StageDetailView = ({
           }`}
         >
           <HistoryIcon className="w-4 h-4" />
-          <span>Stage History ({historyOrders.length})</span>
+          <span>History ({historyOrders.length})</span>
         </button>
       </div>
 
@@ -138,7 +138,7 @@ export const StageDetailView = ({
               No Orders Currently Pending in {currentStage.name}
             </h3>
             <p className="text-xs text-stone-500 max-w-md mx-auto mt-1 mb-4">
-              All orders in this stage have been cleared! You can review past orders under the <strong>Stage History</strong> tab.
+              All orders in this stage have been cleared! You can review past orders under the <strong>History</strong> tab.
             </p>
           </div>
         ) : (
@@ -465,7 +465,7 @@ export const StageDetailView = ({
       )}
 
       {/* ========================================================= */}
-      {/* 2. STAGE HISTORY TAB                                      */}
+      {/* 2. HISTORY TAB                                            */}
       {/* ========================================================= */}
       {stageTab === 'history' && (
         historyOrders.length === 0 ? (

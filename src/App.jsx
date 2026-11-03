@@ -411,23 +411,37 @@ export function App() {
             )
           )}
 
-          {/* 4. Setting Page */}
-          {currentView === 'settings' && canUserAccessPage(currentUser, 'settings') && (
-            <UserManagementView
-              users={users}
-              activeUserId={currentUser.id}
-              currentUser={currentUser}
-              onSwitchUser={() => {}}
-              onOpenAddUser={() => {
-                setEditingUser(null);
-                setIsUserModalOpen(true);
-              }}
-              onOpenEditUser={(user) => {
-                setEditingUser(user);
-                setIsUserModalOpen(true);
-              }}
-              onDeleteUser={handleDeleteUser}
-            />
+          {/* 4. Master / Setting Page */}
+          {currentView === 'settings' && (
+            canUserAccessPage(currentUser, 'settings') ? (
+              <UserManagementView
+                users={users}
+                activeUserId={currentUser?.id}
+                currentUser={currentUser}
+                onSwitchUser={() => {}}
+                onOpenAddUser={() => {
+                  setEditingUser(null);
+                  setIsUserModalOpen(true);
+                }}
+                onOpenEditUser={(user) => {
+                  setEditingUser(user);
+                  setIsUserModalOpen(true);
+                }}
+                onDeleteUser={handleDeleteUser}
+              />
+            ) : (
+              <div className="bg-white rounded-2xl border border-dashed border-[#DECDB8] p-12 text-center">
+                <div className="w-14 h-14 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3">
+                  <Lock className="w-7 h-7" />
+                </div>
+                <h3 className="font-serif text-lg font-bold text-[#431021]">
+                  Master Access Restricted
+                </h3>
+                <p className="text-xs text-stone-500 mt-1 mb-4">
+                  Logged in as <strong>{currentUser?.name}</strong> ({currentUser?.role}). You do not have permission to access the Master page.
+                </p>
+              </div>
+            )
           )}
 
         </main>
