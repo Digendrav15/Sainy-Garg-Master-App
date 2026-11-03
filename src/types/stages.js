@@ -28,7 +28,7 @@ export const STAGES = [
       { key: 'masterCutterName', label: 'Cutter / Master Name', type: 'text', placeholder: 'Master Name' },
       { key: 'remarks', label: 'Remarks', type: 'textarea', placeholder: 'Pattern placement, neck shape adjustment notes...' },
     ]
-  },
+  },  
   {
     id: 'embroidery_sample_approval',
     name: 'Embroidery Sample Approval',

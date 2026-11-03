@@ -151,7 +151,7 @@ export const StageDetailView = ({
                     <tr className="bg-[#FAF7F2] border-b border-[#E8DFD3] text-[11px] font-bold uppercase tracking-wider text-stone-600 whitespace-nowrap">
 
                       {/* 1ST COLUMN: ALL ACTION BUTTONS IN ONE ROW */}
-                      <th className="py-3.5 px-3 bg-[#F5EFE6] border-r border-[#DECDB8] sticky left-0 z-10 text-[#431021] font-extrabold shadow-xs min-w-[215px]">
+                      <th className="py-3.5 px-3 bg-[#F5EFE6] border-r border-[#DECDB8] sticky left-0 z-10 text-[#431021] font-extrabold shadow-xs min-w-[135px]">
                         ⚡ Actions
                       </th>
 
@@ -189,24 +189,13 @@ export const StageDetailView = ({
                                 <span>Update</span>
                               </button>
 
-                              {/* Sheet Button */}
+                              {/* View Button (Eye Icon Only, No Text) */}
                               <button
                                 onClick={() => onViewOrderDetails(order, false)}
-                                className="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold bg-white text-[#5B172E] border border-[#DECDB8] hover:bg-[#FAF5EE] shadow-2xs transition-all shrink-0"
-                                title="View Full Job Sheet"
+                                className="p-1.5 rounded-lg text-stone-600 hover:text-[#5B172E] bg-white border border-[#DECDB8] hover:bg-[#FAF5EE] shadow-2xs transition-all shrink-0 flex items-center justify-center"
+                                title="View Order Details"
                               >
-                                <Eye className="w-3.5 h-3.5" />
-                                <span>Sheet</span>
-                              </button>
-
-                              {/* Measure Button */}
-                              <button
-                                onClick={() => onOpenMeasurements(order, false)}
-                                className="inline-flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold text-stone-700 hover:text-[#5B172E] hover:bg-[#FAF5EE] border border-[#DECDB8] shadow-2xs transition-all shrink-0"
-                                title="Client Measurements"
-                              >
-                                <Ruler className="w-3.5 h-3.5 text-[#9B783E]" />
-                                <span>Measure</span>
+                                <Eye className="w-4 h-4 text-[#5B172E]" />
                               </button>
                             </div>
                           </td>
@@ -419,11 +408,11 @@ export const StageDetailView = ({
                       </div>
                     </div>
 
-                    {/* Touch-Friendly Action Buttons in One Row */}
-                    <div className="grid grid-cols-3 gap-1.5 pt-1">
+                    {/* Touch-Friendly Action Buttons */}
+                    <div className="flex items-center gap-2 pt-1">
                       <button
                         onClick={() => handleOpenUpdateModal(order)}
-                        className="inline-flex items-center justify-center gap-1 py-2 px-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#5B172E] to-[#7A1E3C] hover:from-[#431021] hover:to-[#5B172E] shadow-2xs active:scale-98 transition-all"
+                        className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#5B172E] to-[#7A1E3C] hover:from-[#431021] hover:to-[#5B172E] shadow-2xs active:scale-98 transition-all"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                         <span>Update</span>
@@ -431,18 +420,10 @@ export const StageDetailView = ({
 
                       <button
                         onClick={() => onViewOrderDetails(order, false)}
-                        className="inline-flex items-center justify-center gap-1 py-2 px-2 rounded-xl text-xs font-semibold bg-white text-[#5B172E] border border-[#DECDB8] hover:bg-[#FAF5EE]"
+                        className="p-2 rounded-xl text-stone-700 bg-white border border-[#DECDB8] hover:bg-[#FAF5EE] shadow-2xs flex items-center justify-center shrink-0"
+                        title="View Order Details"
                       >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Sheet</span>
-                      </button>
-
-                      <button
-                        onClick={() => onOpenMeasurements(order, false)}
-                        className="inline-flex items-center justify-center gap-1 py-2 px-2 rounded-xl text-xs font-semibold text-stone-700 hover:text-[#5B172E] bg-white border border-[#DECDB8] hover:bg-[#FAF5EE]"
-                      >
-                        <Ruler className="w-3.5 h-3.5 text-[#9B783E]" />
-                        <span>Measure</span>
+                        <Eye className="w-4 h-4 text-[#5B172E]" />
                       </button>
                     </div>
 
@@ -493,7 +474,7 @@ export const StageDetailView = ({
                     <tr className="bg-[#FAF7F2] border-b border-[#E8DFD3] text-[11px] font-bold uppercase tracking-wider text-stone-600 whitespace-nowrap">
 
                       {/* 1ST COLUMN: STRICTLY ACTIONS */}
-                      <th className="py-3.5 px-4 bg-[#F5EFE6] border-r border-[#DECDB8] sticky left-0 z-10 text-[#431021] font-extrabold shadow-xs min-w-[150px]">
+                      <th className="py-3.5 px-3 bg-[#F5EFE6] border-r border-[#DECDB8] sticky left-0 z-10 text-[#431021] font-extrabold shadow-xs min-w-[75px]">
                         ⚡ Actions
                       </th>
 
@@ -519,26 +500,14 @@ export const StageDetailView = ({
                         <tr key={order.id} className="hover:bg-[#FCFAF7] transition-colors">
 
                           {/* 1ST COLUMN: ACTIONS (READ ONLY FOR HISTORY) */}
-                          <td className="py-3 px-4 bg-[#FBF9F5] border-r border-[#DECDB8] sticky left-0 z-10 shadow-xs align-middle">
-                            <div className="flex items-center gap-1.5">
-                              <button
-                                onClick={() => onViewOrderDetails(order, true)}
-                                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#5B172E] bg-white border border-[#DECDB8] hover:bg-[#FAF5EE] shadow-2xs transition-all"
-                                title="View Job Sheet (Read-Only)"
-                              >
-                                <Eye className="w-3.5 h-3.5" />
-                                <span>Sheet</span>
-                              </button>
-
-                              <button
-                                onClick={() => onOpenMeasurements(order, true)}
-                                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-stone-600 hover:text-[#5B172E] hover:bg-[#FAF5EE] border border-[#DECDB8] shadow-2xs transition-all"
-                                title="View Measurements (Read-Only)"
-                              >
-                                <Ruler className="w-3.5 h-3.5 text-[#9B783E]" />
-                                <span>Measure</span>
-                              </button>
-                            </div>
+                          <td className="py-2.5 px-3 bg-[#FBF9F5] border-r border-[#DECDB8] sticky left-0 z-10 shadow-xs align-middle whitespace-nowrap">
+                            <button
+                              onClick={() => onViewOrderDetails(order, true)}
+                              className="p-1.5 rounded-lg text-stone-600 hover:text-[#5B172E] bg-white border border-[#DECDB8] hover:bg-[#FAF5EE] shadow-2xs transition-all flex items-center justify-center"
+                              title="View Order Details (Read-Only)"
+                            >
+                              <Eye className="w-4 h-4 text-[#5B172E]" />
+                            </button>
                           </td>
 
                           {/* Order ID & Client */}
