@@ -15,7 +15,7 @@ export const STAGES = [
   },
   {
     id: 'embroidery_marking_cutting',
-    name: 'EMBROIDERY MARKING OR CUTTING',
+    name: 'Embroidery Marking or Cutting',
     code: 'EMC',
     badgeColor: 'bg-orange-100 text-orange-800 border-orange-200',
     dotColor: 'bg-orange-500',
@@ -163,13 +163,13 @@ export const UPPER_BODY_MEASUREMENTS = [
   { id: 'belly', label: 'Belly', defaultVal: '33' },
   { id: 'hip', label: 'Hip', defaultVal: '39' },
   { id: 'armhole', label: 'Armhole', defaultVal: '16.5' },
-  { 
-    id: 'sleeveLength', 
-    label: 'Sleeve Length', 
-    isDropdownWithSize: true, 
+  {
+    id: 'sleeveLength',
+    label: 'Sleeve Length',
+    isDropdownWithSize: true,
     options: ['Full Length', '3/4 Length', 'Half Length', 'Cap Length'],
     defaultType: 'Full Length',
-    defaultVal: '18' 
+    defaultVal: '18'
   },
   { id: 'bicep', label: 'Bicep', defaultVal: '12' },
   { id: 'elbow', label: 'Elbow', defaultVal: '10' },
@@ -178,13 +178,13 @@ export const UPPER_BODY_MEASUREMENTS = [
   { id: 'kurtiLength', label: 'Kurti Length', defaultVal: '46' },
   { id: 'blouseLength', label: 'Blouse Length', defaultVal: '15' },
   { id: 'topLength', label: 'Top Length', defaultVal: '26' },
-  { 
-    id: 'jacketLength', 
-    label: 'Jacket Length', 
-    isDropdownWithSize: true, 
+  {
+    id: 'jacketLength',
+    label: 'Jacket Length',
+    isDropdownWithSize: true,
     options: ['Full Length', 'Short Length'],
     defaultType: 'Full Length',
-    defaultVal: '24' 
+    defaultVal: '24'
   },
 ];
 

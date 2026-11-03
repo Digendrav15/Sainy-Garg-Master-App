@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  X, 
-  Check, 
-  Save, 
-  ArrowRight, 
-  Sparkles, 
-  Calendar, 
-  Clock, 
-  FileText, 
-  User, 
-  Scissors, 
+import {
+  X,
+  Check,
+  Save,
+  ArrowRight,
+  Sparkles,
+  Calendar,
+  Clock,
+  FileText,
+  User,
+  Scissors,
   PackageCheck,
   Tag
 } from 'lucide-react';
@@ -61,7 +61,7 @@ export const StageUpdateModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
       <div className="bg-[#FAF8F5] border border-[#E2D5C3] rounded-2xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
-        
+
         {/* Modal Header */}
         <div className="px-6 py-4 bg-white border-b border-[#E8DFD3] flex items-center justify-between shrink-0">
           <div className="flex items-center space-x-3">
@@ -71,7 +71,7 @@ export const StageUpdateModal = ({
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-serif text-lg font-bold text-[#431021]">
-                  Update Stage: {currentStage.name}
+                  Update: {currentStage.name}
                 </h2>
                 <span className="px-2 py-0.5 text-xs font-bold rounded-md bg-[#F2ECE1] text-[#9B783E]">
                   {order.id}
@@ -93,7 +93,7 @@ export const StageUpdateModal = ({
 
         {/* Modal Body / Stage Fields Form */}
         <form className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs scrollbar-thin">
-          
+
           {/* Order Quick Context Bar */}
           <div className="p-3 rounded-xl bg-white border border-[#E8DFD3] shadow-xs flex flex-wrap items-center justify-between gap-2 text-xs">
             <div>

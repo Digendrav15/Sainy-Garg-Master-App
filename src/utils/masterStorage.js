@@ -12,7 +12,7 @@ const VENDORS_KEY = 'sainy_couture_master_vendors_v1';
 const TRANSPORTERS_KEY = 'sainy_couture_master_transporters_v1';
 const KARIGARS_KEY = 'sainy_couture_master_karigars_v1';
 const DEPARTMENTS_KEY = 'sainy_couture_master_departments_v1';
-const TAT_KEY = 'sainy_couture_master_tat_v1';
+const TAT_KEY = 'sainy_couture_master_tat_v2';
 
 // --- CUSTOMERS ---
 export const getStoredCustomers = () => {

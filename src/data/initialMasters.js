@@ -375,7 +375,7 @@ export const INITIAL_TAT_CONFIG = [
   {
     id: 'TAT-002',
     stageId: 'embroidery_marking_cutting',
-    stageName: 'EMBROIDERY MARKING OR CUTTING',
+    stageName: 'Embroidery Marking or Cutting',
     stageIndex: 2,
     standardDays: 2,
     standardHours: 18,

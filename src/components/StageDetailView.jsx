@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  PackageCheck, 
-  Scissors, 
-  Sparkles, 
-  UserCheck, 
-  CheckSquare, 
-  ClipboardCheck, 
-  ShieldCheck, 
-  ShoppingBag, 
+import {
+  PackageCheck,
+  Scissors,
+  Sparkles,
+  UserCheck,
+  CheckSquare,
+  ClipboardCheck,
+  ShieldCheck,
+  ShoppingBag,
   CheckCircle2,
   Calendar,
   Phone,
@@ -53,8 +53,8 @@ export const StageDetailView = ({
   const pendingOrders = orders.filter(o => o.currentStageId === selectedStageId);
 
   // Orders that have passed or completed this stage in the past
-  const historyOrders = orders.filter(o => 
-    o.currentStageIndex > currentStageIndex || 
+  const historyOrders = orders.filter(o =>
+    o.currentStageIndex > currentStageIndex ||
     (o.stageData && o.stageData[selectedStageId] && o.currentStageId !== selectedStageId)
   );
 
@@ -101,11 +101,10 @@ export const StageDetailView = ({
       <div className="flex items-center space-x-2 border-b border-[#E8DFD3] pb-1">
         <button
           onClick={() => setStageTab('pending')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-            stageTab === 'pending'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${stageTab === 'pending'
               ? 'bg-[#5B172E] text-white shadow-xs'
               : 'bg-white text-stone-600 hover:text-stone-900 border border-[#DECDB8]'
-          }`}
+            }`}
         >
           <Hourglass className="w-4 h-4" />
           <span>Pending Orders ({pendingOrders.length})</span>
@@ -113,11 +112,10 @@ export const StageDetailView = ({
 
         <button
           onClick={() => setStageTab('history')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-            stageTab === 'history'
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${stageTab === 'history'
               ? 'bg-[#5B172E] text-white shadow-xs'
               : 'bg-white text-stone-600 hover:text-stone-900 border border-[#DECDB8]'
-          }`}
+            }`}
         >
           <HistoryIcon className="w-4 h-4" />
           <span>History ({historyOrders.length})</span>
@@ -149,9 +147,9 @@ export const StageDetailView = ({
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
                     <tr className="bg-[#FAF7F2] border-b border-[#E8DFD3] text-[11px] font-bold uppercase tracking-wider text-stone-600 whitespace-nowrap">
-                      
+
                       {/* 1ST COLUMN: STRICTLY ACTIONS AS REQUESTED */}
-                      <th className="py-3.5 px-4 bg-[#F5EFE6] border-r border-[#DECDB8] sticky left-0 z-10 text-[#431021] font-extrabold shadow-xs min-w-[210px]">
+                      <th className="py-3 px-3 bg-[#F5EFE6] border-r border-[#DECDB8] sticky left-0 z-10 text-[#431021] font-extrabold shadow-xs w-[140px] min-w-[140px]">
                         ⚡ Actions
                       </th>
 
@@ -175,39 +173,38 @@ export const StageDetailView = ({
 
                       return (
                         <tr key={order.id} className="hover:bg-[#FCFAF7] transition-colors">
-                          
+
                           {/* 1ST COLUMN: ACTIONS WITH POPUP UPDATE BUTTON */}
-                          <td className="py-3 px-4 bg-[#FBF9F5] border-r border-[#DECDB8] sticky left-0 z-10 shadow-xs align-middle">
-                            <div className="flex flex-col gap-2">
-                              
-                              {/* Update Stage Popup Trigger Button */}
+                          <td className="py-2.5 px-3 bg-[#FBF9F5] border-r border-[#DECDB8] sticky left-0 z-10 shadow-xs align-middle">
+                            <div className="flex flex-col gap-1.5 w-[116px]">
+
+                              {/* Compact Update Button */}
                               <button
                                 onClick={() => handleOpenUpdateModal(order)}
-                                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-gradient-to-r from-[#5B172E] via-[#6F1B38] to-[#802243] hover:from-[#431021] hover:to-[#5B172E] shadow-2xs transition-all active:scale-98"
-                                title="Click to open popup form and update/advance stage"
+                                className="w-full inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-white bg-gradient-to-r from-[#5B172E] to-[#7A1E3C] hover:from-[#431021] hover:to-[#5B172E] shadow-2xs transition-all active:scale-98"
+                                title="Update stage data"
                               >
-                                <Edit3 className="w-3.5 h-3.5" />
-                                <span>Update Stage</span>
-                                <ArrowRight className="w-3.5 h-3.5 opacity-80" />
+                                <Edit3 className="w-3 h-3" />
+                                <span>Update</span>
                               </button>
 
                               {/* Secondary Buttons Row (View Sheet & Measurements) */}
                               <div className="flex items-center justify-between gap-1 pt-1 border-t border-[#EAE2D5]">
                                 <button
                                   onClick={() => onViewOrderDetails(order)}
-                                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-semibold bg-white text-[#5B172E] border border-[#DECDB8] hover:bg-[#FAF5EE] transition-all"
+                                  className="flex-1 inline-flex items-center justify-center gap-1 px-1.5 py-1 rounded text-[10px] font-semibold bg-white text-[#5B172E] border border-[#DECDB8] hover:bg-[#FAF5EE] transition-all"
                                   title="View Full Job Sheet"
                                 >
-                                  <Eye className="w-3 h-3" />
+                                  <Eye className="w-2.5 h-2.5" />
                                   <span>Sheet</span>
                                 </button>
 
                                 <button
                                   onClick={() => onOpenMeasurements(order)}
-                                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-semibold text-stone-700 hover:text-[#5B172E] hover:bg-[#FAF5EE] border border-[#DECDB8] transition-all"
+                                  className="flex-1 inline-flex items-center justify-center gap-1 px-1.5 py-1 rounded text-[10px] font-semibold text-stone-700 hover:text-[#5B172E] hover:bg-[#FAF5EE] border border-[#DECDB8] transition-all"
                                   title="Client Measurements"
                                 >
-                                  <Ruler className="w-3 h-3 text-[#9B783E]" />
+                                  <Ruler className="w-2.5 h-2.5 text-[#9B783E]" />
                                   <span>Measure</span>
                                 </button>
                               </div>
@@ -268,13 +265,12 @@ export const StageDetailView = ({
                             <div className="text-[11px] text-stone-500">
                               Trial: {order.trialDate || 'N/A'}
                             </div>
-                            <span className={`inline-block mt-1 px-1.5 py-0.2 rounded text-[10px] font-bold ${
-                              daysToDelivery <= 3
+                            <span className={`inline-block mt-1 px-1.5 py-0.2 rounded text-[10px] font-bold ${daysToDelivery <= 3
                                 ? 'bg-rose-100 text-rose-700'
                                 : daysToDelivery <= 7
-                                ? 'bg-amber-100 text-amber-700'
-                                : 'bg-emerald-100 text-emerald-700'
-                            }`}>
+                                  ? 'bg-amber-100 text-amber-700'
+                                  : 'bg-emerald-100 text-emerald-700'
+                              }`}>
                               {daysToDelivery > 0 ? `${daysToDelivery} days left` : 'Due'}
                             </span>
                           </td>
@@ -287,13 +283,12 @@ export const StageDetailView = ({
                               <td key={field.key} className="py-3 px-4 border-l border-[#EFE7DC] align-middle">
                                 {val ? (
                                   field.type === 'select' ? (
-                                    <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                      val.toLowerCase().includes('yes') || val.toLowerCase().includes('passed') || val.toLowerCase().includes('approved')
+                                    <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${val.toLowerCase().includes('yes') || val.toLowerCase().includes('passed') || val.toLowerCase().includes('approved')
                                         ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                                         : val.toLowerCase().includes('no') || val.toLowerCase().includes('rework') || val.toLowerCase().includes('failed')
-                                        ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                                        : 'bg-amber-100 text-amber-800 border border-amber-200'
-                                    }`}>
+                                          ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                                          : 'bg-amber-100 text-amber-800 border border-amber-200'
+                                      }`}>
                                       {val}
                                     </span>
                                   ) : (
@@ -325,7 +320,7 @@ export const StageDetailView = ({
                 const stageVals = order.stageData?.[selectedStageId] || {};
 
                 return (
-                  <div 
+                  <div
                     key={order.id}
                     className="bg-white rounded-2xl border border-[#E8DFD3] p-4 shadow-xs space-y-3 animate-in fade-in duration-150"
                   >
@@ -350,13 +345,12 @@ export const StageDetailView = ({
                         </div>
                       </div>
 
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold shrink-0 ${
-                        daysToDelivery <= 3
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold shrink-0 ${daysToDelivery <= 3
                           ? 'bg-rose-100 text-rose-700'
                           : daysToDelivery <= 7
-                          ? 'bg-amber-100 text-amber-700'
-                          : 'bg-emerald-100 text-emerald-700'
-                      }`}>
+                            ? 'bg-amber-100 text-amber-700'
+                            : 'bg-emerald-100 text-emerald-700'
+                        }`}>
                         {daysToDelivery > 0 ? `${daysToDelivery}d left` : 'Due'}
                       </span>
                     </div>
@@ -407,13 +401,12 @@ export const StageDetailView = ({
                               <span className="text-right font-semibold text-stone-800 text-[11px] truncate max-w-[180px]">
                                 {val ? (
                                   field.type === 'select' ? (
-                                    <span className={`inline-block px-1.5 py-0.2 rounded text-[10px] font-bold ${
-                                      val.toLowerCase().includes('yes') || val.toLowerCase().includes('passed') || val.toLowerCase().includes('approved')
+                                    <span className={`inline-block px-1.5 py-0.2 rounded text-[10px] font-bold ${val.toLowerCase().includes('yes') || val.toLowerCase().includes('passed') || val.toLowerCase().includes('approved')
                                         ? 'bg-emerald-100 text-emerald-800'
                                         : val.toLowerCase().includes('no') || val.toLowerCase().includes('rework') || val.toLowerCase().includes('failed')
-                                        ? 'bg-rose-100 text-rose-800'
-                                        : 'bg-amber-100 text-amber-800'
-                                    }`}>
+                                          ? 'bg-rose-100 text-rose-800'
+                                          : 'bg-amber-100 text-amber-800'
+                                      }`}>
                                       {val}
                                     </span>
                                   ) : val
@@ -431,11 +424,10 @@ export const StageDetailView = ({
                     <div className="space-y-2 pt-1">
                       <button
                         onClick={() => handleOpenUpdateModal(order)}
-                        className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#5B172E] via-[#6F1B38] to-[#802243] hover:from-[#431021] hover:to-[#5B172E] shadow-2xs active:scale-98 transition-all"
+                        className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#5B172E] to-[#7A1E3C] hover:from-[#431021] hover:to-[#5B172E] shadow-2xs active:scale-98 transition-all"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
-                        <span>Update Stage Form</span>
-                        <ArrowRight className="w-3.5 h-3.5 opacity-80" />
+                        <span>Update</span>
                       </button>
 
                       <div className="grid grid-cols-2 gap-2">
@@ -488,7 +480,7 @@ export const StageDetailView = ({
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
                     <tr className="bg-[#FAF7F2] border-b border-[#E8DFD3] text-[11px] font-bold uppercase tracking-wider text-stone-600 whitespace-nowrap">
-                      
+
                       {/* 1ST COLUMN: STRICTLY ACTIONS */}
                       <th className="py-3.5 px-4 bg-[#F5EFE6] border-r border-[#DECDB8] sticky left-0 z-10 text-[#431021] font-extrabold shadow-xs min-w-[150px]">
                         ⚡ Actions
@@ -514,7 +506,7 @@ export const StageDetailView = ({
 
                       return (
                         <tr key={order.id} className="hover:bg-[#FCFAF7] transition-colors">
-                          
+
                           {/* 1ST COLUMN: ACTIONS */}
                           <td className="py-3 px-4 bg-[#FBF9F5] border-r border-[#DECDB8] sticky left-0 z-10 shadow-xs align-middle">
                             <div className="flex items-center gap-1.5">
@@ -604,7 +596,7 @@ export const StageDetailView = ({
                 const stageVals = order.stageData?.[selectedStageId] || {};
 
                 return (
-                  <div 
+                  <div
                     key={order.id}
                     className="bg-white rounded-2xl border border-[#E8DFD3] p-4 shadow-xs space-y-2.5"
                   >
