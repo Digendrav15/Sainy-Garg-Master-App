@@ -27,19 +27,12 @@ export const OrdersView = ({
   onSelectStage,
   onDeleteOrder
 }) => {
-  const [orderTab, setOrderTab] = useState('pending'); // 'pending' | 'history'
   const [searchTerm, setSearchTerm] = useState('');
   const [stageFilter, setStageFilter] = useState('ALL');
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
-  // Pending vs History split
-  const pendingOrders = orders.filter(o => o.currentStageIndex < 9);
-  const historyOrders = orders.filter(o => o.currentStageIndex === 9);
-
-  const displayOrdersList = orderTab === 'pending' ? pendingOrders : historyOrders;
-
-  // Filter orders by search & stage
-  const filteredOrders = displayOrdersList.filter((order) => {
+  // Filter all orders by search & stage
+  const filteredOrders = orders.filter((order) => {
     const matchesSearch =
       !searchTerm.trim() ||
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -54,61 +47,34 @@ export const OrdersView = ({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       
-      {/* Top Banner with THE EXCLUSIVE "+ Create New Order" Button */}
-      <div className="bg-white rounded-2xl p-5 border border-[#E8DFD3] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
+      {/* CLEAN HEADER: "All Orders" Title & "+ Create New Order" Button */}
+      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8DFD3] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#5B172E] text-white flex items-center justify-center shadow-xs shrink-0">
+            <ShoppingBag className="w-5 h-5 text-[#FAF6F0]" />
+          </div>
           <div className="flex items-center gap-2.5">
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#431021]">
-              Orders Management
+              All Orders
             </h2>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#FAF5EE] text-[#9B783E] border border-[#DECDB8] font-bold">
-              Atelier Orders
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FAF5EE] text-[#5B172E] border border-[#DECDB8]">
+              {orders.length}
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-stone-500 mt-1">
-            Production orders repository. Create new bespoke orders, track active stages, and view historical deliveries.
-          </p>
         </div>
 
-        {/* Sole "+ Create New Order" Button in entire app */}
+        {/* "+ Create New Order" Button */}
         <div>
           <button
             onClick={onOpenNewOrder}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#5B172E] via-[#6B1B37] to-[#802243] hover:from-[#431021] hover:to-[#5B172E] shadow-sm hover:shadow-md transition-all duration-200 transform active:scale-98"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#5B172E] via-[#6B1B37] to-[#802243] hover:from-[#431021] hover:to-[#5B172E] shadow-sm hover:shadow-md transition-all active:scale-98"
           >
             <PlusCircle className="w-4 h-4 text-[#F3ECE2]" />
             <span>+ Create New Order</span>
           </button>
         </div>
-      </div>
-
-      {/* PENDING & HISTORY TABS */}
-      <div className="flex items-center space-x-2 border-b border-[#E8DFD3] pb-1">
-        <button
-          onClick={() => setOrderTab('pending')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-            orderTab === 'pending'
-              ? 'bg-[#5B172E] text-white shadow-xs'
-              : 'bg-white text-stone-600 hover:text-stone-900 border border-[#DECDB8]'
-          }`}
-        >
-          <Hourglass className="w-4 h-4" />
-          <span>Pending Orders ({pendingOrders.length})</span>
-        </button>
-
-        <button
-          onClick={() => setOrderTab('history')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-            orderTab === 'history'
-              ? 'bg-[#5B172E] text-white shadow-xs'
-              : 'bg-white text-stone-600 hover:text-stone-900 border border-[#DECDB8]'
-          }`}
-        >
-          <HistoryIcon className="w-4 h-4" />
-          <span>Delivered / History ({historyOrders.length})</span>
-        </button>
       </div>
 
       {/* Search & Filter Controls */}
@@ -155,12 +121,10 @@ export const OrdersView = ({
               <ShoppingBag className="w-7 h-7" />
             </div>
             <h3 className="font-serif text-lg font-bold text-[#431021]">
-              No {orderTab === 'pending' ? 'Pending' : 'Historical'} Orders Found
+              No Orders Found
             </h3>
             <p className="text-xs text-stone-500 max-w-sm mx-auto">
-              {orderTab === 'pending'
-                ? 'No active orders pending in production. Click "+ Create New Order" above to place an order.'
-                : 'No orders have been finalized or delivered to history yet.'}
+              No orders matched your search or stage filter. Click "+ Create New Order" above to place an order.
             </p>
           </div>
         ) : (
