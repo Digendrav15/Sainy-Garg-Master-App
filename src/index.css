@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FAF6F0;
+    color: #2D2424;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  
+  h1, h2, h3, .font-couture {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Custom Scrollbar for smooth elegant luxury feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F3ECE2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4AD8D;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9B783E;
+}
+
+/* Print Styles for Printable Order Sheet & Measurement Book */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  .print-break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
