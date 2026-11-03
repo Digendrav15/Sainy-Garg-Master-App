@@ -23,14 +23,11 @@ import {
   Hourglass,
   Tag,
   Edit3,
-  ChevronLeft,
-  ChevronRight,
   Layers
 } from 'lucide-react';
 import { STAGES } from '../types/stages';
 import { StageUpdateModal } from './StageUpdateModal';
 import { CustomerPhoneDisplay } from '../utils/privacy';
-import { canUserAccessStage } from '../utils/userStorage';
 
 export const StageDetailView = ({
   orders = [],
@@ -51,9 +48,6 @@ export const StageDetailView = ({
   // Popup Modal State for updating stage inputs (AS REQUESTED)
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedOrderForUpdate, setSelectedOrderForUpdate] = useState(null);
-
-  // Permitted stages for current user
-  const accessibleStages = STAGES.filter(s => canUserAccessStage(currentUser, s.id));
 
   // Orders currently pending at this stage
   const pendingOrders = orders.filter(o => o.currentStageId === selectedStageId);
@@ -79,115 +73,6 @@ export const StageDetailView = ({
 
   return (
     <div className="space-y-4">
-      
-      {/* ========================================================= */}
-      {/* 🚀 HORIZONTAL STAGES SELECTOR BAR (MOBILE & DESKTOP)      */}
-      {/* ========================================================= */}
-      <div className="bg-white rounded-2xl p-3 sm:p-4 border border-[#E8DFD3] shadow-xs space-y-2.5">
-        
-        {/* Header with Title & Prev/Next Quick Navigation */}
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#5B172E] animate-pulse"></span>
-            <span className="text-[11px] sm:text-xs font-bold text-[#9B783E] uppercase tracking-wider">
-              Production Stages
-            </span>
-            <span className="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full bg-[#FAF5EE] text-[#5B172E] font-bold border border-[#E8DFD3]">
-              Stage {currentStageIndex + 1} of {STAGES.length}
-            </span>
-          </div>
-
-          {/* Quick Prev / Next Stage Buttons */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                const curIdx = accessibleStages.findIndex(s => s.id === selectedStageId);
-                if (curIdx > 0) onSelectStage(accessibleStages[curIdx - 1].id);
-              }}
-              disabled={accessibleStages.findIndex(s => s.id === selectedStageId) <= 0}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold bg-[#FAF8F5] border border-[#DECDB8] text-stone-700 hover:text-[#5B172E] hover:bg-[#FAF5EE] disabled:opacity-30 disabled:pointer-events-none transition-all shadow-2xs"
-              title="Previous Stage"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Prev Stage</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                const curIdx = accessibleStages.findIndex(s => s.id === selectedStageId);
-                if (curIdx < accessibleStages.length - 1) onSelectStage(accessibleStages[curIdx + 1].id);
-              }}
-              disabled={accessibleStages.findIndex(s => s.id === selectedStageId) >= accessibleStages.length - 1}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold bg-[#FAF8F5] border border-[#DECDB8] text-stone-700 hover:text-[#5B172E] hover:bg-[#FAF5EE] disabled:opacity-30 disabled:pointer-events-none transition-all shadow-2xs"
-              title="Next Stage"
-            >
-              <span className="hidden sm:inline">Next Stage</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Quick Dropdown (Visible on Phone Screens < sm) */}
-        <div className="sm:hidden">
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-stone-500 mb-1">
-            Tap to Switch Stage:
-          </label>
-          <select
-            value={selectedStageId}
-            onChange={(e) => onSelectStage(e.target.value)}
-            className="w-full px-3 py-2 text-xs font-bold bg-[#FAF8F5] text-[#5B172E] border border-[#DECDB8] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
-          >
-            {accessibleStages.map((stage) => {
-              const idx = STAGES.findIndex(s => s.id === stage.id) + 1;
-              const count = orders.filter(o => o.currentStageId === stage.id).length;
-              return (
-                <option key={stage.id} value={stage.id}>
-                  Stage {idx}: {stage.name} ({count} pending)
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        {/* Horizontal Touch-Scrollable Stage Strip */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-0.5 scrollbar-thin scroll-smooth -mx-1 px-1">
-          {accessibleStages.map((stage) => {
-            const stgIndex = STAGES.findIndex(s => s.id === stage.id) + 1;
-            const isSelected = stage.id === selectedStageId;
-            const stagePendingCount = orders.filter(o => o.currentStageId === stage.id).length;
-
-            return (
-              <button
-                key={stage.id}
-                type="button"
-                onClick={() => onSelectStage(stage.id)}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs whitespace-nowrap shrink-0 transition-all font-medium border active:scale-98 ${
-                  isSelected
-                    ? 'bg-gradient-to-r from-[#5B172E] via-[#6B1B37] to-[#802243] text-white border-[#5B172E] shadow-sm font-bold scale-[1.02]'
-                    : 'bg-[#FAF8F5] text-stone-700 border-[#DECDB8] hover:border-[#9B783E] hover:bg-white'
-                }`}
-              >
-                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                  isSelected ? 'bg-white/20 text-white' : 'bg-[#EAE2D5] text-[#5B172E]'
-                }`}>
-                  {stgIndex}
-                </span>
-                <span className="text-[11px] sm:text-xs">{stage.name}</span>
-                {stagePendingCount > 0 && (
-                  <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-bold ${
-                    isSelected ? 'bg-[#9B783E] text-white' : 'bg-[#5B172E] text-white'
-                  }`}>
-                    {stagePendingCount}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-      </div>
-
       {/* CLEAN STAGE HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[#E8DFD3]">
         <div className="flex items-center gap-3">
