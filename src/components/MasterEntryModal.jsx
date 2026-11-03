@@ -11,13 +11,18 @@ import {
   MapPin, 
   Tag, 
   FileText,
-  Star
+  Star,
+  Clock,
+  Briefcase,
+  Layers,
+  AlertCircle
 } from 'lucide-react';
+import { STAGES } from '../types/stages';
 
 export const MasterEntryModal = ({
   isOpen,
   onClose,
-  type, // 'customer' | 'vendor' | 'transporter' | 'karigar'
+  type, // 'customer' | 'vendor' | 'transporter' | 'karigar' | 'department' | 'tat'
   initialData = null,
   onSubmit,
   nextId
@@ -79,6 +84,31 @@ export const MasterEntryModal = ({
           status: 'Active (On Duty)',
           dailyCapacity: '1 Garment / Day'
         });
+      } else if (type === 'department') {
+        setFormData({
+          id: nextId || `DEPT-${Date.now().toString().slice(-3)}`,
+          name: '',
+          code: '',
+          headName: '',
+          contactEmail: '',
+          staffCount: 1,
+          status: 'Active',
+          description: ''
+        });
+      } else if (type === 'tat') {
+        setFormData({
+          id: nextId || `TAT-${Date.now().toString().slice(-3)}`,
+          stageName: STAGES[0]?.name || 'Material Check',
+          stageId: STAGES[0]?.id || 'material_check',
+          stageIndex: 1,
+          standardDays: 2,
+          standardHours: 16,
+          bufferDays: 1,
+          maxSlaDays: 3,
+          department: 'Order Desk & Client Relations',
+          priority: 'Normal',
+          notes: ''
+        });
       }
     }
     setErrors({});
@@ -95,11 +125,20 @@ export const MasterEntryModal = ({
     e.preventDefault();
     const newErrors = {};
 
-    if (!formData.name?.trim()) {
-      newErrors.name = 'Name is required';
-    }
-    if (!formData.phone?.trim()) {
-      newErrors.phone = 'Contact phone is required';
+    if (type === 'tat') {
+      if (!formData.stageName?.trim()) {
+        newErrors.stageName = 'Stage Name is required';
+      }
+      if (formData.standardDays === undefined || formData.standardDays === '') {
+        newErrors.standardDays = 'Standard Days is required';
+      }
+    } else {
+      if (!formData.name?.trim()) {
+        newErrors.name = 'Name is required';
+      }
+      if (type !== 'department' && !formData.phone?.trim()) {
+        newErrors.phone = 'Contact phone is required';
+      }
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -116,6 +155,8 @@ export const MasterEntryModal = ({
     switch (type) {
       case 'customer': return `${action} Customer Record`;
       case 'vendor': return `${action} Vendor / Supplier`;
+      case 'department': return `${action} Department Master`;
+      case 'tat': return `${action} Stage TAT / SLA Configuration`;
       case 'transporter': return `${action} Transporter / Logistics Partner`;
       case 'karigar': return `${action} Karigar / Artisan Master`;
       default: return `${action} Master Record`;
@@ -126,6 +167,8 @@ export const MasterEntryModal = ({
     switch (type) {
       case 'customer': return <User className="w-5 h-5 text-[#C5A059]" />;
       case 'vendor': return <Building2 className="w-5 h-5 text-[#C5A059]" />;
+      case 'department': return <Briefcase className="w-5 h-5 text-[#C5A059]" />;
+      case 'tat': return <Clock className="w-5 h-5 text-[#C5A059]" />;
       case 'transporter': return <Truck className="w-5 h-5 text-[#C5A059]" />;
       case 'karigar': return <Scissors className="w-5 h-5 text-[#C5A059]" />;
       default: return <Tag className="w-5 h-5 text-[#C5A059]" />;
@@ -139,7 +182,7 @@ export const MasterEntryModal = ({
         {/* Header */}
         <div className="px-6 py-4 bg-white border-b border-[#E8DFD3] flex items-center justify-between shrink-0">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-[#5B172E] text-white flex items-center justify-center font-serif font-bold text-base shadow-xs">
+            <div className="w-10 h-10 rounded-full bg-[#5B172E] text-white flex items-center justify-center shadow-xs">
               {getIcon()}
             </div>
             <div>
@@ -147,98 +190,101 @@ export const MasterEntryModal = ({
                 <h2 className="font-serif text-lg font-bold text-[#431021]">
                   {getTitle()}
                 </h2>
-                <span className="px-2 py-0.5 text-xs font-bold rounded-md bg-[#F2ECE1] text-[#9B783E]">
+                <span className="px-2 py-0.5 text-xs font-mono font-bold rounded-md bg-[#FAF5EE] text-[#9B783E] border border-[#DECDB8]">
                   {formData.id}
                 </span>
               </div>
               <p className="text-xs text-stone-500">
-                Atelier Master Repository Entry
+                Sainy Garg Couture • Master Data Management
               </p>
             </div>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
-            className="p-1.5 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-lg"
+            className="p-1.5 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded-lg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Form Body */}
+        {/* Scrollable Body */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4 text-xs scrollbar-thin">
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             
-            {/* Name */}
-            <div className="sm:col-span-2">
-              <label className="block font-semibold text-stone-700 mb-1">
-                {type === 'customer' ? 'Customer / Client Name' : 
-                 type === 'vendor' ? 'Vendor / Company Name' : 
-                 type === 'transporter' ? 'Transporter / Courier Name' : 'Karigar / Master Name'} <span className="text-rose-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.name || ''}
-                onChange={(e) => handleChange('name', e.target.value)}
-                placeholder="Enter name..."
-                className={`w-full px-3 py-2 text-sm bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30 ${
-                  errors.name ? 'border-rose-400 bg-rose-50' : 'border-[#DECDB8]'
-                }`}
-              />
-              {errors.name && <p className="text-[11px] text-rose-500 mt-1">{errors.name}</p>}
-            </div>
-
-            {/* Phone */}
-            <div>
-              <label className="block font-semibold text-stone-700 mb-1">
-                Contact Phone <span className="text-rose-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.phone || ''}
-                onChange={(e) => handleChange('phone', e.target.value)}
-                placeholder="+91 98XXX XXXXX"
-                className={`w-full px-3 py-2 text-sm bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30 ${
-                  errors.phone ? 'border-rose-400 bg-rose-50' : 'border-[#DECDB8]'
-                }`}
-              />
-              {errors.phone && <p className="text-[11px] text-rose-500 mt-1">{errors.phone}</p>}
-            </div>
-
-            {/* Email (For Customer / Vendor / Transporter) */}
-            {type !== 'karigar' && (
-              <div>
+            {/* NAME FIELD (FOR CUSTOMER, VENDOR, TRANSPORTER, KARIGAR, DEPARTMENT) */}
+            {type !== 'tat' && (
+              <div className="sm:col-span-2">
                 <label className="block font-semibold text-stone-700 mb-1">
-                  Email Address
+                  {type === 'customer' ? 'Customer Full Name' :
+                   type === 'vendor' ? 'Vendor / Business Firm Name' :
+                   type === 'department' ? 'Department Name' :
+                   type === 'transporter' ? 'Courier / Logistics Company Name' :
+                   'Karigar / Artisan Master Name'} <span className="text-rose-500">*</span>
                 </label>
                 <input
-                  type="email"
-                  value={formData.email || ''}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  placeholder="contact@domain.com"
-                  className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  type="text"
+                  value={formData.name || ''}
+                  onChange={(e) => handleChange('name', e.target.value)}
+                  placeholder="Enter name..."
+                  className={`w-full px-3 py-2 text-sm bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30 ${
+                    errors.name ? 'border-rose-400 bg-rose-50/50' : 'border-[#DECDB8]'
+                  }`}
                 />
+                {errors.name && <p className="text-[11px] text-rose-500 mt-1">{errors.name}</p>}
               </div>
             )}
 
-            {/* City / Hub */}
-            <div>
-              <label className="block font-semibold text-stone-700 mb-1">
-                {type === 'transporter' ? 'Hub City / Base' : 'City'}
-              </label>
-              <input
-                type="text"
-                value={formData.city || formData.hubCity || ''}
-                onChange={(e) => handleChange(type === 'transporter' ? 'hubCity' : 'city', e.target.value)}
-                placeholder="e.g. New Delhi, Mumbai, Surat"
-                className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
-              />
-            </div>
+            {/* PHONE FIELD (FOR CUSTOMER, VENDOR, TRANSPORTER, KARIGAR) */}
+            {type !== 'department' && type !== 'tat' && (
+              <div>
+                <label className="block font-semibold text-stone-700 mb-1">
+                  Contact Mobile <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.phone || ''}
+                  onChange={(e) => handleChange('phone', e.target.value)}
+                  placeholder="e.g. +91 98765 43210"
+                  className={`w-full px-3 py-2 text-sm bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30 ${
+                    errors.phone ? 'border-rose-400 bg-rose-50/50' : 'border-[#DECDB8]'
+                  }`}
+                />
+                {errors.phone && <p className="text-[11px] text-rose-500 mt-1">{errors.phone}</p>}
+              </div>
+            )}
 
             {/* TYPE SPECIFIC FIELDS: CUSTOMER */}
             {type === 'customer' && (
               <>
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email || ''}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    placeholder="client@example.com"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    City / Region
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.city || ''}
+                    onChange={(e) => handleChange('city', e.target.value)}
+                    placeholder="e.g. New Delhi, Mumbai"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">
                     Client Category
@@ -253,32 +299,32 @@ export const MasterEntryModal = ({
                     <option value="High Net Bespoke">High Net Bespoke</option>
                     <option value="Wedding Guest Luxury">Wedding Guest Luxury</option>
                     <option value="Royal Heritage">Royal Heritage</option>
-                    <option value="Festive Pret">Festive Pret</option>
+                    <option value="Contemporary Heritage">Contemporary Heritage</option>
                   </select>
                 </div>
 
                 <div className="sm:col-span-2">
                   <label className="block font-semibold text-stone-700 mb-1">
-                    Client Address
+                    Full Delivery Address
                   </label>
                   <input
                     type="text"
                     value={formData.address || ''}
                     onChange={(e) => handleChange('address', e.target.value)}
-                    placeholder="Full residential / delivery address"
+                    placeholder="Apartment, Street, Landmark, Pincode"
                     className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
                   />
                 </div>
 
                 <div className="sm:col-span-2">
                   <label className="block font-semibold text-stone-700 mb-1">
-                    Bespoke Notes / Fitting Preferences
+                    Client Taste & Style Notes
                   </label>
                   <textarea
                     rows={2}
                     value={formData.notes || ''}
                     onChange={(e) => handleChange('notes', e.target.value)}
-                    placeholder="Color palette preference, silhouette requests, special instructions..."
+                    placeholder="Specific necklines, embroidery density preferences, lining fabric..."
                     className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
                   />
                 </div>
@@ -288,24 +334,6 @@ export const MasterEntryModal = ({
             {/* TYPE SPECIFIC FIELDS: VENDOR */}
             {type === 'vendor' && (
               <>
-                <div>
-                  <label className="block font-semibold text-stone-700 mb-1">
-                    Supply Category
-                  </label>
-                  <select
-                    value={formData.category || 'Pure Silk & Chanderi Fabrics'}
-                    onChange={(e) => handleChange('category', e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
-                  >
-                    <option value="Pure Silk & Chanderi Fabrics">Pure Silk & Chanderi Fabrics</option>
-                    <option value="Organza, Tissue & Santoon Lining">Organza, Tissue & Santoon Lining</option>
-                    <option value="Pure Gold & Silver Zari, Resham Threads">Pure Gold & Silver Zari, Resham Threads</option>
-                    <option value="Organic Dyeing & Custom Shade Matching">Organic Dyeing & Custom Shade Matching</option>
-                    <option value="Couture Cancan, Latkans, YKK Zippers & Cups">Couture Cancan, Latkans, YKK Zippers & Cups</option>
-                    <option value="Micro Cut Sequins, Seed Beads & Swarovskis">Micro Cut Sequins, Seed Beads & Swarovskis</option>
-                  </select>
-                </div>
-
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">
                     Contact Person
@@ -319,6 +347,32 @@ export const MasterEntryModal = ({
                   />
                 </div>
 
+                <div className="sm:col-span-2">
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Supply Category / Items
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.category || ''}
+                    onChange={(e) => handleChange('category', e.target.value)}
+                    placeholder="e.g. Pure Silk, Zari, Organza, Can-Can, Thread"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    City / Market Location
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.city || ''}
+                    onChange={(e) => handleChange('city', e.target.value)}
+                    placeholder="e.g. Varanasi, Surat, Delhi"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">
                     GST Number
@@ -327,26 +381,257 @@ export const MasterEntryModal = ({
                     type="text"
                     value={formData.gstNo || ''}
                     onChange={(e) => handleChange('gstNo', e.target.value)}
-                    placeholder="e.g. 09AAACB1234F1Z5"
+                    placeholder="07AAAAA0000A1Z5"
                     className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
                   />
                 </div>
 
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">
-                    Payment Terms
+                    Vendor Quality Rating
                   </label>
                   <select
-                    value={formData.terms || '15 Days Credit'}
-                    onChange={(e) => handleChange('terms', e.target.value)}
+                    value={formData.rating || '⭐⭐⭐⭐⭐ Top Tier'}
+                    onChange={(e) => handleChange('rating', e.target.value)}
                     className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
                   >
-                    <option value="Immediate / Cash">Immediate / Cash</option>
-                    <option value="7 Days Rolling">7 Days Rolling</option>
-                    <option value="15 Days Credit">15 Days Credit</option>
-                    <option value="30 Days Net">30 Days Net</option>
-                    <option value="Advance Deposit">Advance Deposit</option>
+                    <option value="⭐⭐⭐⭐⭐ Top Tier">⭐⭐⭐⭐⭐ Top Tier</option>
+                    <option value="⭐⭐⭐⭐ Premium">⭐⭐⭐⭐ Premium</option>
+                    <option value="⭐⭐⭐ Standard">⭐⭐⭐ Standard</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Payment Terms
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.terms || ''}
+                    onChange={(e) => handleChange('terms', e.target.value)}
+                    placeholder="e.g. 15 Days Credit, Advance 50%"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Address / Shop Details
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.address || ''}
+                    onChange={(e) => handleChange('address', e.target.value)}
+                    placeholder="Market lane, Unit No., City"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* TYPE SPECIFIC FIELDS: DEPARTMENT */}
+            {type === 'department' && (
+              <>
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Department Code
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.code || ''}
+                    onChange={(e) => handleChange('code', e.target.value)}
+                    placeholder="e.g. BST, MDV, TKC"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Head of Department / In-Charge <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.headName || ''}
+                    onChange={(e) => handleChange('headName', e.target.value)}
+                    placeholder="e.g. Master Harish, Priya Sharma"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Official Email
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.contactEmail || ''}
+                    onChange={(e) => handleChange('contactEmail', e.target.value)}
+                    placeholder="dept@sainygarg.com"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Active Staff Count
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formData.staffCount || 1}
+                    onChange={(e) => handleChange('staffCount', parseInt(e.target.value, 10) || 1)}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Status
+                  </label>
+                  <select
+                    value={formData.status || 'Active'}
+                    onChange={(e) => handleChange('status', e.target.value)}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Under Expansion">Under Expansion</option>
+                    <option value="On Shift">On Shift</option>
+                  </select>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Operational Scope & Responsibility
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={formData.description || ''}
+                    onChange={(e) => handleChange('description', e.target.value)}
+                    placeholder="Core tasks handled by this department..."
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+              </>
+            )}
+
+            {/* TYPE SPECIFIC FIELDS: TAT */}
+            {type === 'tat' && (
+              <>
+                <div className="sm:col-span-2">
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Select Workflow Stage <span className="text-rose-500">*</span>
+                  </label>
+                  <select
+                    value={formData.stageName || STAGES[0]?.name}
+                    onChange={(e) => {
+                      const selectedStg = STAGES.find(s => s.name === e.target.value);
+                      handleChange('stageName', e.target.value);
+                      if (selectedStg) {
+                        handleChange('stageId', selectedStg.id);
+                        handleChange('stageIndex', STAGES.findIndex(s => s.id === selectedStg.id) + 1);
+                      }
+                    }}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  >
+                    {STAGES.map((s, idx) => (
+                      <option key={s.id} value={s.name}>
+                        Stage {idx + 1}: {s.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Standard Target (Days) <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formData.standardDays ?? 2}
+                    onChange={(e) => handleChange('standardDays', parseInt(e.target.value, 10) || 1)}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Target Work Hours
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formData.standardHours ?? 16}
+                    onChange={(e) => handleChange('standardHours', parseInt(e.target.value, 10) || 8)}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Buffer / Grace Days
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={formData.bufferDays ?? 1}
+                    onChange={(e) => handleChange('bufferDays', parseInt(e.target.value, 10) || 0)}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Max SLA Limit (Days)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={formData.maxSlaDays ?? 3}
+                    onChange={(e) => handleChange('maxSlaDays', parseInt(e.target.value, 10) || 2)}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    In-Charge Department
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.department || ''}
+                    onChange={(e) => handleChange('department', e.target.value)}
+                    placeholder="e.g. Tracing, Khaka & Cutting"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    SLA Priority Flag
+                  </label>
+                  <select
+                    value={formData.priority || 'Normal'}
+                    onChange={(e) => handleChange('priority', e.target.value)}
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  >
+                    <option value="Normal">Normal</option>
+                    <option value="High">High</option>
+                    <option value="Urgent">Urgent</option>
+                  </select>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    SLA Guidelines & SOP Remark
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={formData.notes || ''}
+                    onChange={(e) => handleChange('notes', e.target.value)}
+                    placeholder="Quality verification rules, alert trigger notes..."
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
                 </div>
               </>
             )}
@@ -354,45 +639,67 @@ export const MasterEntryModal = ({
             {/* TYPE SPECIFIC FIELDS: TRANSPORTER */}
             {type === 'transporter' && (
               <>
-                <div className="sm:col-span-2">
-                  <label className="block font-semibold text-stone-700 mb-1">
-                    Service Delivery Type
-                  </label>
-                  <select
-                    value={formData.serviceType || 'Priority Air Courier (Express 24-48h)'}
-                    onChange={(e) => handleChange('serviceType', e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
-                  >
-                    <option value="Priority Air Courier (Express 24-48h)">Priority Air Courier (Express 24-48h)</option>
-                    <option value="Protected Couture Box Transit">Protected Couture Box Transit</option>
-                    <option value="White-Glove Local Delivery & Home Trial">White-Glove Local Delivery & Home Trial</option>
-                    <option value="International NRI Express Doorstep Delivery">International NRI Express Doorstep Delivery</option>
-                    <option value="Secured Waterproof Heavy Garment Trunk">Secured Waterproof Heavy Garment Trunk</option>
-                  </select>
-                </div>
-
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">
-                    Contact Person / Desk
+                    Courier / Service Type
                   </label>
                   <input
                     type="text"
-                    value={formData.contactPerson || ''}
-                    onChange={(e) => handleChange('contactPerson', e.target.value)}
-                    placeholder="e.g. Ramesh Nair"
+                    value={formData.serviceType || ''}
+                    onChange={(e) => handleChange('serviceType', e.target.value)}
+                    placeholder="e.g. Priority Air, Express Road"
                     className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
                   />
                 </div>
 
                 <div>
                   <label className="block font-semibold text-stone-700 mb-1">
-                    Avg Transit Time
+                    Contact Person / Representative
                   </label>
                   <input
                     type="text"
-                    value={formData.avgTransitTime || '24-48 Hours'}
+                    value={formData.contactPerson || ''}
+                    onChange={(e) => handleChange('contactPerson', e.target.value)}
+                    placeholder="e.g. Vikram Batra"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Hub Base City
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.hubCity || ''}
+                    onChange={(e) => handleChange('hubCity', e.target.value)}
+                    placeholder="e.g. Delhi-NCR (Aerocity)"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Avg Transit SLA
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.avgTransitTime || ''}
                     onChange={(e) => handleChange('avgTransitTime', e.target.value)}
-                    placeholder="e.g. 24-36 Hours, Same Day"
+                    placeholder="e.g. 24-48 Hours"
+                    className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block font-semibold text-stone-700 mb-1">
+                    Tracking Portal URL
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.trackingUrl || ''}
+                    onChange={(e) => handleChange('trackingUrl', e.target.value)}
+                    placeholder="https://www.bluedart.com/tracking"
                     className="w-full px-3 py-2 text-sm bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
                   />
                 </div>
@@ -504,4 +811,3 @@ export const MasterEntryModal = ({
     </div>
   );
 };
-

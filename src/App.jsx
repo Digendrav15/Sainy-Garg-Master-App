@@ -28,7 +28,8 @@ import {
   ShoppingBag, 
   Scissors, 
   Settings, 
-  Menu 
+  Menu,
+  Database
 } from 'lucide-react';
 
 const AUTH_USER_KEY = 'sainy_couture_auth_user_v3';
@@ -522,7 +523,7 @@ export function App() {
           <span className="text-[10px]">Stages</span>
         </button>
 
-        {/* Settings */}
+        {/* Master */}
         {canUserAccessPage(currentUser, 'settings') && (
           <button
             type="button"
@@ -533,8 +534,8 @@ export function App() {
                 : 'text-stone-500 hover:text-stone-800'
             }`}
           >
-            <Settings className="w-5 h-5" />
-            <span className="text-[10px]">Setting</span>
+            <Database className="w-5 h-5" />
+            <span className="text-[10px]">Master</span>
           </button>
         )}
 

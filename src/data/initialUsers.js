@@ -105,5 +105,5 @@ export const ALL_PAGE_IDS = [
   { id: 'dashboard', label: 'Dashboard (Production Tracking)' },
   { id: 'orders', label: 'Orders Page (All Orders & Create Order)' },
   { id: 'stages', label: 'Production Stages Workflows' },
-  { id: 'settings', label: 'Setting (Admin Only)' }
+  { id: 'settings', label: 'Master Hub (Users, Vendors, Clients, Dept, TAT)' }
 ];

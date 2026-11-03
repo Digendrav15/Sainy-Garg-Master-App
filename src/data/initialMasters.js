@@ -285,3 +285,209 @@ export const INITIAL_KARIGARS = [
   }
 ];
 
+export const INITIAL_DEPARTMENTS = [
+  {
+    id: 'DEPT-001',
+    name: 'Order Desk & Client Relations',
+    code: 'OD-CR',
+    headName: 'Sainy Garg',
+    contactEmail: 'contact@sainygarg.com',
+    staffCount: 3,
+    status: 'Active',
+    description: 'Client consultation, bespoke measurements intake & order onboarding.'
+  },
+  {
+    id: 'DEPT-002',
+    name: 'Material & Dyeing Verification',
+    code: 'MDV',
+    headName: 'Kishan Lal',
+    contactEmail: 'dyeing@sainygarg.com',
+    staffCount: 4,
+    status: 'Active',
+    description: 'Raw silk inspection, custom dye lot matching & trims procurement.'
+  },
+  {
+    id: 'DEPT-003',
+    name: 'Tracing, Khaka & Cutting',
+    code: 'TKC',
+    headName: 'Master Rajesh Kumar',
+    contactEmail: 'cutting@sainygarg.com',
+    staffCount: 5,
+    status: 'Active',
+    description: 'Bespoke pattern drafting, wooden block khaka tracing & base cutting.'
+  },
+  {
+    id: 'DEPT-004',
+    name: 'Hand Embroidery & Zardozi',
+    code: 'HEZ',
+    headName: 'Ustad Munna Bhai',
+    contactEmail: 'embroidery@sainygarg.com',
+    staffCount: 14,
+    status: 'Active',
+    description: 'Adda handwork: Dabka, Nakshi, Marodi, Pithha, Resham, Sequin & Pearl.'
+  },
+  {
+    id: 'DEPT-005',
+    name: 'Bespoke Stitching & Tailoring',
+    code: 'BST',
+    headName: 'Master Harish',
+    contactEmail: 'tailoring@sainygarg.com',
+    staffCount: 8,
+    status: 'Active',
+    description: 'Bespoke lehenga assembly, corsetry, boning, padding & hand finishes.'
+  },
+  {
+    id: 'DEPT-006',
+    name: 'Quality Control & Finishing',
+    code: 'QCF',
+    headName: 'Priya Sharma',
+    contactEmail: 'qc@sainygarg.com',
+    staffCount: 3,
+    status: 'Active',
+    description: 'Dual QC inspection, hemline verification, steam press & trial prep.'
+  },
+  {
+    id: 'DEPT-007',
+    name: 'Dispatch & White Glove Delivery',
+    code: 'DWD',
+    headName: 'Suresh Rawat',
+    contactEmail: 'logistics@sainygarg.com',
+    staffCount: 2,
+    status: 'Active',
+    description: 'Heritage garment bag packaging, bridal trunk packing & tracked delivery.'
+  }
+];
+
+export const INITIAL_TAT_CONFIG = [
+  {
+    id: 'TAT-001',
+    stageId: 'material_check',
+    stageName: 'Material Check',
+    stageIndex: 1,
+    standardDays: 2,
+    standardHours: 16,
+    bufferDays: 1,
+    maxSlaDays: 3,
+    department: 'Material & Dyeing Verification',
+    priority: 'Normal',
+    notes: 'Dye confirmation shade cards within 48h.'
+  },
+  {
+    id: 'TAT-002',
+    stageId: 'embroidery_marking_cutting',
+    stageName: 'EMBROIDERY MARKING OR CUTTING',
+    stageIndex: 2,
+    standardDays: 2,
+    standardHours: 18,
+    bufferDays: 1,
+    maxSlaDays: 3,
+    department: 'Tracing, Khaka & Cutting',
+    priority: 'Normal',
+    notes: 'Khaka tracing and base fabric cut verification.'
+  },
+  {
+    id: 'TAT-003',
+    stageId: 'embroidery_sample_approval',
+    stageName: 'Embroidery Sample Approval',
+    stageIndex: 3,
+    standardDays: 2,
+    standardHours: 16,
+    bufferDays: 1,
+    maxSlaDays: 4,
+    department: 'Order Desk & Client Relations',
+    priority: 'High',
+    notes: 'Patch photo to client; approval sign-off.'
+  },
+  {
+    id: 'TAT-004',
+    stageId: 'full_embroidery',
+    stageName: 'Full Embroidery',
+    stageIndex: 4,
+    standardDays: 8,
+    standardHours: 72,
+    bufferDays: 2,
+    maxSlaDays: 12,
+    department: 'Hand Embroidery & Zardozi',
+    priority: 'Urgent',
+    notes: 'Adda multi-karigar shift embroidery work.'
+  },
+  {
+    id: 'TAT-005',
+    stageId: 'final_cutting_karigar_allotment',
+    stageName: 'Final Cutting & Karigar Allotment',
+    stageIndex: 5,
+    standardDays: 2,
+    standardHours: 14,
+    bufferDays: 1,
+    maxSlaDays: 3,
+    department: 'Tracing, Khaka & Cutting',
+    priority: 'Normal',
+    notes: 'Post-embroidery trimming and tailoring allotment.'
+  },
+  {
+    id: 'TAT-006',
+    stageId: 'stitching_completed',
+    stageName: 'Stitching Completed',
+    stageIndex: 6,
+    standardDays: 5,
+    standardHours: 40,
+    bufferDays: 1,
+    maxSlaDays: 7,
+    department: 'Bespoke Stitching & Tailoring',
+    priority: 'High',
+    notes: 'Full garment assembly, zipper, boning & cancan.'
+  },
+  {
+    id: 'TAT-007',
+    stageId: 'first_qc_alterations_cleared',
+    stageName: 'First QC and Alterations Cleared',
+    stageIndex: 7,
+    standardDays: 1,
+    standardHours: 8,
+    bufferDays: 1,
+    maxSlaDays: 2,
+    department: 'Quality Control & Finishing',
+    priority: 'Normal',
+    notes: 'First fit check, margin verification.'
+  },
+  {
+    id: 'TAT-008',
+    stageId: 'finishing_final_qc_passed',
+    stageName: 'Finishing and Final QC Passed',
+    stageIndex: 8,
+    standardDays: 1,
+    standardHours: 8,
+    bufferDays: 0,
+    maxSlaDays: 2,
+    department: 'Quality Control & Finishing',
+    priority: 'Normal',
+    notes: 'Thread trim, hook/eye, steam iron & final seal.'
+  },
+  {
+    id: 'TAT-009',
+    stageId: 'trial_packing_pickup',
+    stageName: 'Trial or Packing and Pickup',
+    stageIndex: 9,
+    standardDays: 2,
+    standardHours: 16,
+    bufferDays: 1,
+    maxSlaDays: 3,
+    department: 'Dispatch & White Glove Delivery',
+    priority: 'Normal',
+    notes: 'Client trial session or luxury dispatch booking.'
+  },
+  {
+    id: 'TAT-010',
+    stageId: 'final_trial_delivered_return',
+    stageName: 'Final Trial / Delivered / Return',
+    stageIndex: 10,
+    standardDays: 1,
+    standardHours: 8,
+    bufferDays: 0,
+    maxSlaDays: 2,
+    department: 'Dispatch & White Glove Delivery',
+    priority: 'Normal',
+    notes: 'Final handover to client and order closure.'
+  }
+];
+

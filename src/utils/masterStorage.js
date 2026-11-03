@@ -2,13 +2,17 @@ import {
   INITIAL_CUSTOMERS, 
   INITIAL_VENDORS, 
   INITIAL_TRANSPORTERS, 
-  INITIAL_KARIGARS 
+  INITIAL_KARIGARS,
+  INITIAL_DEPARTMENTS,
+  INITIAL_TAT_CONFIG
 } from '../data/initialMasters';
 
 const CUSTOMERS_KEY = 'sainy_couture_master_customers_v1';
 const VENDORS_KEY = 'sainy_couture_master_vendors_v1';
 const TRANSPORTERS_KEY = 'sainy_couture_master_transporters_v1';
 const KARIGARS_KEY = 'sainy_couture_master_karigars_v1';
+const DEPARTMENTS_KEY = 'sainy_couture_master_departments_v1';
+const TAT_KEY = 'sainy_couture_master_tat_v1';
 
 // --- CUSTOMERS ---
 export const getStoredCustomers = () => {
@@ -103,6 +107,54 @@ export const saveKarigarsToStorage = (karigars) => {
     localStorage.setItem(KARIGARS_KEY, JSON.stringify(karigars));
   } catch (err) {
     console.error('Error saving karigars', err);
+  }
+};
+
+// --- DEPARTMENTS ---
+export const getStoredDepartments = () => {
+  try {
+    const data = localStorage.getItem(DEPARTMENTS_KEY);
+    if (!data) {
+      localStorage.setItem(DEPARTMENTS_KEY, JSON.stringify(INITIAL_DEPARTMENTS));
+      return INITIAL_DEPARTMENTS;
+    }
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_DEPARTMENTS;
+  } catch (err) {
+    console.error('Error reading departments', err);
+    return INITIAL_DEPARTMENTS;
+  }
+};
+
+export const saveDepartmentsToStorage = (departments) => {
+  try {
+    localStorage.setItem(DEPARTMENTS_KEY, JSON.stringify(departments));
+  } catch (err) {
+    console.error('Error saving departments', err);
+  }
+};
+
+// --- TAT CONFIGURATION ---
+export const getStoredTATConfig = () => {
+  try {
+    const data = localStorage.getItem(TAT_KEY);
+    if (!data) {
+      localStorage.setItem(TAT_KEY, JSON.stringify(INITIAL_TAT_CONFIG));
+      return INITIAL_TAT_CONFIG;
+    }
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_TAT_CONFIG;
+  } catch (err) {
+    console.error('Error reading TAT config', err);
+    return INITIAL_TAT_CONFIG;
+  }
+};
+
+export const saveTATConfigToStorage = (tatConfig) => {
+  try {
+    localStorage.setItem(TAT_KEY, JSON.stringify(tatConfig));
+  } catch (err) {
+    console.error('Error saving TAT config', err);
   }
 };
 

@@ -16,7 +16,8 @@ import {
   PanelLeftOpen,
   LogOut,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Database
 } from 'lucide-react';
 import { STAGES } from '../types/stages';
 import { canUserAccessPage, canUserAccessStage } from '../utils/userStorage';
@@ -177,7 +178,7 @@ export const Sidebar = ({
 
           <div className="w-8 border-b border-[#E8DFD3] my-1" />
 
-          {/* Setting Icon */}
+          {/* Master Icon */}
           {canAccessSettings && (
             <button
               onClick={() => handleViewClick('settings')}
@@ -186,9 +187,9 @@ export const Sidebar = ({
                   ? 'bg-[#5B172E] text-white shadow-xs'
                   : 'text-stone-600 hover:bg-white hover:text-[#5B172E]'
               }`}
-              title="Setting"
+              title="Master Hub"
             >
-              <Settings className="w-5 h-5" />
+              <Database className="w-5 h-5" />
             </button>
           )}
 
@@ -362,7 +363,7 @@ export const Sidebar = ({
       {/* Bottom: Setting Page + User Profile */}
       <div className="border-t border-[#E8DFD3] bg-white shrink-0">
         
-        {/* Setting */}
+        {/* Master */}
         {canAccessSettings && (
           <div className="p-2 border-b border-[#F0E6D8]">
             <button
@@ -374,13 +375,13 @@ export const Sidebar = ({
               }`}
             >
               <div className="flex items-center gap-2.5">
-                <Settings className="w-4 h-4 text-[#9B783E]" />
-                <span>Setting</span>
+                <Database className="w-4 h-4 text-[#9B783E]" />
+                <span className="font-bold">Master</span>
               </div>
               <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold ${
                 currentView === 'settings' ? 'bg-white/20 text-white' : 'bg-[#FAF2E6] text-stone-600'
               }`}>
-                RBAC
+                Hub
               </span>
             </button>
           </div>

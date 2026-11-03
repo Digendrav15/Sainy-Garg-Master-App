@@ -313,7 +313,7 @@ export const UserFormModal = ({
               <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-rose-600 shrink-0" />
                 <span>
-                  <strong>Full Page Access:</strong> As an Admin, this account automatically has access to all pages (Dashboard, Orders, Stages, and Setting).
+                  <strong>Full Page Access:</strong> As an Admin, this account automatically has access to all pages (Dashboard, Orders, Stages, and Master Hub).
                 </span>
               </div>
             ) : (
@@ -340,7 +340,7 @@ export const UserFormModal = ({
                       </div>
                       <div className="min-w-0">
                         <div className="font-bold text-xs capitalize text-stone-800">
-                          {p.id === 'stages' ? 'Production Stages' : p.id}
+                          {p.id === 'stages' ? 'Production Stages' : p.id === 'settings' ? 'Master Hub' : p.id}
                         </div>
                         <div className="text-[10px] text-stone-500 truncate">
                           {p.label}

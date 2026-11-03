@@ -26,7 +26,7 @@ export const Navbar = ({
     if (currentView === 'stages') return selectedStageName;
     if (currentView === 'dashboard') return 'Dashboard';
     if (currentView === 'orders') return 'Orders';
-    if (currentView === 'settings') return 'Setting';
+    if (currentView === 'settings') return 'Master';
     return currentView;
   };
 
