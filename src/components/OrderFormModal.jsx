@@ -8,8 +8,7 @@ import {
   Ruler,
   Check,
   Image as ImageIcon,
-  ArrowRight,
-  Info
+  ArrowRight
 } from 'lucide-react';
 import { UPPER_BODY_MEASUREMENTS, LOWER_BODY_MEASUREMENTS } from '../types/stages';
 
@@ -466,8 +465,8 @@ export const OrderFormModal = ({ isOpen, onClose, onSubmitOrder, nextOrderId }) 
                   type="button"
                   onClick={() => setHasUpper(!hasUpper)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold border flex items-center gap-1.5 transition-all ${hasUpper
-                      ? 'bg-[#5B172E] text-white border-[#5B172E]'
-                      : 'bg-[#FAF8F5] text-stone-600 border-[#DECDB8]'
+                    ? 'bg-[#5B172E] text-white border-[#5B172E]'
+                    : 'bg-[#FAF8F5] text-stone-600 border-[#DECDB8]'
                     }`}
                 >
                   <span className={`w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[10px] ${hasUpper ? 'bg-white text-[#5B172E]' : 'border border-stone-400'}`}>
@@ -480,8 +479,8 @@ export const OrderFormModal = ({ isOpen, onClose, onSubmitOrder, nextOrderId }) 
                   type="button"
                   onClick={() => setHasLower(!hasLower)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold border flex items-center gap-1.5 transition-all ${hasLower
-                      ? 'bg-[#5B172E] text-white border-[#5B172E]'
-                      : 'bg-[#FAF8F5] text-stone-600 border-[#DECDB8]'
+                    ? 'bg-[#5B172E] text-white border-[#5B172E]'
+                    : 'bg-[#FAF8F5] text-stone-600 border-[#DECDB8]'
                     }`}
                 >
                   <span className={`w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[10px] ${hasLower ? 'bg-white text-[#5B172E]' : 'border border-stone-400'}`}>
@@ -625,14 +624,6 @@ export const OrderFormModal = ({ isOpen, onClose, onSubmitOrder, nextOrderId }) 
             )}
           </div>
 
-          {/* Submission Notice */}
-          <div className="p-3.5 rounded-xl bg-[#F5EBE1] border border-[#E0D2C0] text-xs text-[#5B172E] flex items-start gap-2.5">
-            <Info className="w-4 h-4 text-[#9B783E] shrink-0 mt-0.5" />
-            <div>
-              <span className="font-bold">Automated Stage Handover:</span> Upon submitting, Order <span className="font-bold">{nextOrderId}</span> will immediately advance to <span className="font-bold underline">Stage 1: Material Check</span> where dye status, fabric meterage, and material readiness are confirmed.
-            </div>
-          </div>
-
           {/* Footer Actions */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#E8DFD3]">
             <button
@@ -646,7 +637,7 @@ export const OrderFormModal = ({ isOpen, onClose, onSubmitOrder, nextOrderId }) 
               type="submit"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#5B172E] to-[#7B203E] hover:from-[#431021] hover:to-[#5B172E] shadow-md transition-all transform active:scale-98"
             >
-              <span>Create Order Sheet & Proceed to Material Check</span>
+              <span>Create Order</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
