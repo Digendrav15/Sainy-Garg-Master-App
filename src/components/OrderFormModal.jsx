@@ -503,69 +503,55 @@ export const OrderFormModal = ({ isOpen, onClose, onSubmitOrder, nextOrderId }) 
                   <span className="text-[11px] text-[#9B783E] font-medium">Standard / Tailored Inches</span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5">
                   {UPPER_BODY_MEASUREMENTS.map((item, index) => (
                     item.isDropdownWithSize ? (
-                      <div key={item.id} className="bg-white p-2.5 rounded-lg border-2 border-[#5B172E]/20 hover:border-[#5B172E]/40 shadow-xs col-span-2 space-y-1.5 transition-all">
-                        <div className="flex items-center justify-between">
-                          <label className="block text-[11px] font-bold text-[#5B172E] truncate">
-                            {index + 1}. {item.label}
-                          </label>
-                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FAF5EE] text-[#9B783E] border border-[#DECDB8]">
-                            Dropdown + Length
-                          </span>
-                        </div>
+                      <div key={item.id} className="bg-white p-2 rounded-lg border border-[#DECDB8]/80 shadow-2xs hover:border-[#9B783E] transition-colors">
+                        <label className="block text-[11px] font-semibold text-stone-600 truncate mb-1" title={item.label}>
+                          {index + 1}. {item.label}
+                        </label>
+                        <div className="flex items-center gap-1">
+                          {/* Dropdown Selector for Type */}
+                          <select
+                            value={upperMeasurements[`${item.id}Type`] || item.defaultType || item.options[0]}
+                            onChange={(e) =>
+                              setUpperMeasurements({
+                                ...upperMeasurements,
+                                [`${item.id}Type`]: e.target.value
+                              })
+                            }
+                            className="w-[58%] min-w-0 px-1.5 py-1 text-[11px] font-semibold text-stone-700 bg-[#FAF8F5] border border-[#DECDB8] rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E] truncate"
+                            title={`Select ${item.label} Type`}
+                          >
+                            {item.options.map((opt) => (
+                              <option key={opt} value={opt}>{opt}</option>
+                            ))}
+                          </select>
 
-                        {/* Dropdown Options */}
-                        <select
-                          value={upperMeasurements[`${item.id}Type`] || ''}
-                          onChange={(e) =>
-                            setUpperMeasurements({
-                              ...upperMeasurements,
-                              [`${item.id}Type`]: e.target.value
-                            })
-                          }
-                          className="w-full px-2 py-1 text-xs font-semibold text-stone-800 bg-[#FAF8F5] border border-[#DECDB8] rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E]"
-                        >
-                          <option value="">-- Select {item.label} --</option>
-                          {item.options.map((opt) => (
-                            <option key={opt} value={opt}>{opt}</option>
-                          ))}
-                        </select>
-
-                        {/* Length Size Input (appears when type selected) */}
-                        {upperMeasurements[`${item.id}Type`] ? (
-                          <div className="relative animate-in fade-in duration-150">
-                            <label className="block text-[10px] font-semibold text-stone-600 mb-0.5">
-                              Enter {item.label} Size:
-                            </label>
-                            <div className="relative">
-                              <input
-                                type="text"
-                                value={upperMeasurements[item.id] || ''}
-                                onChange={(e) =>
-                                  setUpperMeasurements({
-                                    ...upperMeasurements,
-                                    [item.id]: e.target.value
-                                  })
-                                }
-                                placeholder={`e.g. ${item.defaultVal}`}
-                                className="w-full pr-5 pl-2 py-1 text-xs font-bold text-stone-800 bg-white border border-[#5B172E]/40 rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E]"
-                              />
-                              <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] text-stone-400 font-medium">
-                                "
-                              </span>
-                            </div>
+                          {/* Length Input */}
+                          <div className="relative w-[42%] shrink-0">
+                            <input
+                              type="text"
+                              value={upperMeasurements[item.id] || ''}
+                              onChange={(e) =>
+                                setUpperMeasurements({
+                                  ...upperMeasurements,
+                                  [item.id]: e.target.value
+                                })
+                              }
+                              placeholder={item.defaultVal}
+                              className="w-full pr-3.5 pl-1.5 py-1 text-xs font-bold text-stone-800 bg-[#FAF8F5] border border-[#DECDB8] rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E] text-center"
+                              title={`Enter ${item.label} Length in Inches`}
+                            />
+                            <span className="absolute right-1 top-1/2 -translate-y-1/2 text-[10px] text-stone-400 font-medium">
+                              "
+                            </span>
                           </div>
-                        ) : (
-                          <p className="text-[10px] text-stone-400 italic">
-                            Select option above to enter size
-                          </p>
-                        )}
+                        </div>
                       </div>
                     ) : (
-                      <div key={item.id} className="bg-white p-2 rounded-lg border border-[#DECDB8]/80 shadow-2xs">
-                        <label className="block text-[11px] font-semibold text-stone-600 truncate mb-1">
+                      <div key={item.id} className="bg-white p-2 rounded-lg border border-[#DECDB8]/80 shadow-2xs hover:border-[#9B783E] transition-colors">
+                        <label className="block text-[11px] font-semibold text-stone-600 truncate mb-1" title={item.label}>
                           {index + 1}. {item.label}
                         </label>
                         <div className="relative">
