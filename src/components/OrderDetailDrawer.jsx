@@ -9,7 +9,6 @@ import {
   Ruler, 
   CheckCircle2, 
   Clock, 
-  ArrowRight, 
   Scissors, 
   Sparkles,
   Layers,
@@ -301,41 +300,6 @@ export const OrderDetailDrawer = ({
                   </div>
                 </div>
 
-              </div>
-
-              {/* Current Stage Action Card */}
-              <div className="bg-[#FAF7F2] border border-[#DECDB8] rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#9B783E]">
-                    Current Production Stage
-                  </span>
-                  <h4 className="font-serif font-bold text-lg text-[#431021]">
-                    Stage {currentStageIndex + 1}: {currentStage.name}
-                  </h4>
-                  <p className="text-xs text-stone-600 mt-0.5">
-                    {currentStage.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {isReadOnly ? (
-                    <span className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-stone-600 bg-stone-100 border border-[#DECDB8]">
-                      Stage Cleared (History Archive)
-                    </span>
-                  ) : currentStageIndex < 9 ? (
-                    <button
-                      onClick={() => onAdvanceStage(order.id, currentStage.id, {})}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5B172E] hover:bg-[#431021] shadow-xs hover:shadow transition-all"
-                    >
-                      <span>Complete & Move to Stage {currentStageIndex + 2}</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  ) : (
-                    <span className="px-4 py-2 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-100 border border-emerald-300">
-                      ✓ Delivered / Closed
-                    </span>
-                  )}
-                </div>
               </div>
 
             </div>
