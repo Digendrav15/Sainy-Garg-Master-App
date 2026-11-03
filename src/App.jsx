@@ -69,7 +69,9 @@ export function App() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [selectedOrderForDetails, setSelectedOrderForDetails] = useState(null);
+  const [isDetailsReadOnly, setIsDetailsReadOnly] = useState(false);
   const [selectedOrderForMeasurements, setSelectedOrderForMeasurements] = useState(null);
+  const [isMeasurementsReadOnly, setIsMeasurementsReadOnly] = useState(false);
 
   // Toast
   const [toast, setToast] = useState(null);
@@ -393,8 +395,14 @@ export function App() {
                 }}
                 onUpdateStageData={handleUpdateStageData}
                 onAdvanceStage={handleAdvanceStage}
-                onViewOrderDetails={(order) => setSelectedOrderForDetails(order)}
-                onOpenMeasurements={(order) => setSelectedOrderForMeasurements(order)}
+                onViewOrderDetails={(order, readOnly = false) => {
+                  setSelectedOrderForDetails(order);
+                  setIsDetailsReadOnly(readOnly);
+                }}
+                onOpenMeasurements={(order, readOnly = false) => {
+                  setSelectedOrderForMeasurements(order);
+                  setIsMeasurementsReadOnly(readOnly);
+                }}
               />
             ) : (
               <div className="bg-white rounded-2xl border border-[#DECDB8] p-12 text-center max-w-lg mx-auto shadow-xs">
@@ -573,20 +581,29 @@ export function App() {
       <OrderDetailDrawer
         order={selectedOrderForDetails}
         isOpen={!!selectedOrderForDetails}
-        onClose={() => setSelectedOrderForDetails(null)}
+        onClose={() => {
+          setSelectedOrderForDetails(null);
+          setIsDetailsReadOnly(false);
+        }}
         onAdvanceStage={handleAdvanceStage}
-        onOpenMeasurements={(order) => {
+        onOpenMeasurements={(order, readOnly = false) => {
           setSelectedOrderForMeasurements(order);
+          setIsMeasurementsReadOnly(readOnly);
         }}
         currentUser={currentUser}
+        isReadOnly={isDetailsReadOnly}
       />
 
       <MeasurementsModal
         order={selectedOrderForMeasurements}
         isOpen={!!selectedOrderForMeasurements}
-        onClose={() => setSelectedOrderForMeasurements(null)}
+        onClose={() => {
+          setSelectedOrderForMeasurements(null);
+          setIsMeasurementsReadOnly(false);
+        }}
         onSaveMeasurements={handleSaveMeasurements}
         currentUser={currentUser}
+        isReadOnly={isMeasurementsReadOnly}
       />
 
     </div>

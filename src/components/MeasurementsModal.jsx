@@ -13,7 +13,7 @@ import {
 import { UPPER_BODY_MEASUREMENTS, LOWER_BODY_MEASUREMENTS } from '../types/stages';
 import { maskCustomerMobile } from '../utils/privacy';
 
-export const MeasurementsModal = ({ order, isOpen, onClose, onSaveMeasurements, currentUser }) => {
+export const MeasurementsModal = ({ order, isOpen, onClose, onSaveMeasurements, currentUser, isReadOnly = false }) => {
   if (!isOpen || !order) return null;
 
   const [activeCategory, setActiveCategory] = useState('upper'); // 'upper' | 'lower'
@@ -64,6 +64,11 @@ export const MeasurementsModal = ({ order, isOpen, onClose, onSaveMeasurements, 
                 <span className="px-2 py-0.5 text-xs font-bold rounded-md bg-[#F2ECE1] text-[#9B783E]">
                   {order.id}
                 </span>
+                {isReadOnly && (
+                  <span className="px-2 py-0.5 text-[10px] font-bold rounded-md bg-stone-200 text-stone-700">
+                    Read-Only (History)
+                  </span>
+                )}
               </div>
               <p className="text-xs text-stone-500">
                 Client: {order.clientName} • Measured for: {order.designName}
@@ -257,6 +262,11 @@ export const MeasurementsModal = ({ order, isOpen, onClose, onSaveMeasurements, 
                 Measurements successfully updated!
               </span>
             )}
+            {isReadOnly && (
+              <span className="text-xs text-stone-500 italic">
+                Historical record archive: Measurements are view-only.
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-3">
@@ -266,13 +276,15 @@ export const MeasurementsModal = ({ order, isOpen, onClose, onSaveMeasurements, 
             >
               Close
             </button>
-            <button
-              onClick={handleSave}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5B172E] hover:bg-[#431021] shadow-xs hover:shadow transition-all"
-            >
-              <Save className="w-4 h-4" />
-              <span>Save Measurements</span>
-            </button>
+            {!isReadOnly && (
+              <button
+                onClick={handleSave}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5B172E] hover:bg-[#431021] shadow-xs hover:shadow transition-all"
+              >
+                <Save className="w-4 h-4" />
+                <span>Save Measurements</span>
+              </button>
+            )}
           </div>
         </div>
 

@@ -26,7 +26,8 @@ export const OrderDetailDrawer = ({
   onClose,
   onAdvanceStage,
   onOpenMeasurements,
-  currentUser
+  currentUser,
+  isReadOnly = false
 }) => {
   if (!isOpen || !order) return null;
 
@@ -317,7 +318,11 @@ export const OrderDetailDrawer = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  {currentStageIndex < 9 ? (
+                  {isReadOnly ? (
+                    <span className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-stone-600 bg-stone-100 border border-[#DECDB8]">
+                      Stage Cleared (History Archive)
+                    </span>
+                  ) : currentStageIndex < 9 ? (
                     <button
                       onClick={() => onAdvanceStage(order.id, currentStage.id, {})}
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#5B172E] hover:bg-[#431021] shadow-xs hover:shadow transition-all"
