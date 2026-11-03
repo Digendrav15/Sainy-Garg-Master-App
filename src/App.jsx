@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { Sidebar } from './components/Sidebar';
-import { Navbar } from './components/Navbar';
 import { LoginPage } from './components/LoginPage';
 import { DashboardView } from './components/DashboardView';
 import { OrdersView } from './components/OrdersView';
@@ -336,19 +335,6 @@ export function App() {
         isSidebarHidden ? 'sm:pl-[72px] pl-0' : 'lg:pl-72 pl-0'
       }`}>
         
-        {/* Top Header Navbar */}
-        <Navbar
-          isSidebarHidden={isSidebarHidden}
-          onToggleSidebar={() => setIsSidebarHidden(!isSidebarHidden)}
-          orders={scopedOrders}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          currentView={currentView}
-          selectedStageName={currentSelectedStage.name}
-          currentUser={currentUser}
-          onLogout={handleLogout}
-        />
-
         {/* Dynamic Page Views (Scoped to Current User) */}
         <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 lg:p-8 pb-24 lg:pb-8">
           
