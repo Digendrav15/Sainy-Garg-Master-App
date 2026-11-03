@@ -1,16 +1,42 @@
 import { INITIAL_ORDERS } from '../data/initialOrders';
 
-const STORAGE_KEY = 'sainy_couture_orders_v7'; // bumped to v7 for removed fabricMeterage from Material Check
+const STORAGE_KEY = 'sainy_couture_orders_v8'; // bumped to v8 for updated measurement parameters
 
 export const getStoredOrders = () => {
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
+    let data = localStorage.getItem(STORAGE_KEY);
     if (!data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_ORDERS));
-      return INITIAL_ORDERS;
+      // Check if previous v7 exists to migrate
+      const prevData = localStorage.getItem('sainy_couture_orders_v7');
+      if (prevData) {
+        data = prevData;
+      } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_ORDERS));
+        return INITIAL_ORDERS;
+      }
     }
     const parsed = JSON.parse(data);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : INITIAL_ORDERS;
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      // Migrate fullLength from lower to upper if present
+      const migrated = parsed.map(o => {
+        if (o.measurements?.lower?.fullLength && !o.measurements?.upper?.fullLength) {
+          return {
+            ...o,
+            measurements: {
+              ...o.measurements,
+              upper: {
+                ...o.measurements.upper,
+                fullLength: o.measurements.lower.fullLength
+              }
+            }
+          };
+        }
+        return o;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+      return migrated;
+    }
+    return INITIAL_ORDERS;
   } catch (error) {
     console.error('Failed to parse orders from localStorage', error);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_ORDERS));

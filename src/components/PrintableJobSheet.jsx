@@ -87,12 +87,17 @@ export const PrintableJobSheet = ({ order, currentUser }) => {
               <div className="mb-3">
                 <span className="text-[11px] font-bold text-[#9B783E] block mb-1">Upper Body</span>
                 <div className="grid grid-cols-4 gap-1 text-[11px] border border-stone-200 p-2 rounded bg-[#FAF8F5]">
-                  {UPPER_BODY_MEASUREMENTS.map(m => (
-                    <div key={m.id} className="flex justify-between border-b border-stone-100 py-0.5">
-                      <span className="text-stone-600">{m.label}:</span>
-                      <strong className="text-stone-900">{order.measurements?.upper?.[m.id] || '-'}</strong>
-                    </div>
-                  ))}
+                  {UPPER_BODY_MEASUREMENTS.map(m => {
+                    const val = order.measurements?.upper?.[m.id];
+                    const typeVal = order.measurements?.upper?.[`${m.id}Type`];
+                    const displayVal = typeVal ? `${typeVal}${val ? ` (${val}")` : ''}` : (val ? `${val}"` : '-');
+                    return (
+                      <div key={m.id} className="flex justify-between border-b border-stone-100 py-0.5">
+                        <span className="text-stone-600 truncate pr-1">{m.label}:</span>
+                        <strong className="text-stone-900 shrink-0">{displayVal}</strong>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

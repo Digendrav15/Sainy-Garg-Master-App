@@ -147,30 +147,83 @@ export const MeasurementsModal = ({ order, isOpen, onClose, onSaveMeasurements, 
                   <span className="w-6 h-6 rounded-full bg-[#5B172E]/10 text-[#5B172E] flex items-center justify-center text-xs font-bold font-sans">
                     U
                   </span>
-                  Upper Body Measurement Points (1 to 17)
+                  Upper Body Measurement Points (1 to {UPPER_BODY_MEASUREMENTS.length})
                 </h3>
                 <span className="text-xs text-stone-400">Tape measure snug fit</span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {UPPER_BODY_MEASUREMENTS.map((m, idx) => (
-                  <div key={m.id} className="bg-[#FAF8F5] p-2.5 rounded-xl border border-[#DECDB8] hover:border-[#9B783E] transition-colors">
-                    <label className="block text-xs font-semibold text-stone-700 mb-1 truncate">
-                      {idx + 1}. {m.label}
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={upperValues[m.id] !== undefined ? upperValues[m.id] : ''}
-                        onChange={(e) => handleUpperChange(m.id, e.target.value)}
-                        placeholder={m.defaultVal}
-                        className="w-full pl-2.5 pr-6 py-1.5 text-sm font-bold text-stone-900 bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
-                      />
-                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-400">
-                        "
-                      </span>
+                  m.isDropdownWithSize ? (
+                    <div key={m.id} className="bg-[#FAF8F5] p-3 rounded-xl border-2 border-[#5B172E]/20 hover:border-[#5B172E]/40 col-span-2 space-y-2 transition-all">
+                      <div className="flex items-center justify-between">
+                        <label className="block text-xs font-bold text-[#5B172E] truncate">
+                          {idx + 1}. {m.label}
+                        </label>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#FAF5EE] text-[#9B783E] border border-[#DECDB8]">
+                          Dropdown + Size
+                        </span>
+                      </div>
+
+                      <div>
+                        <label className="block text-[11px] font-medium text-stone-500 mb-0.5">
+                          Select Type:
+                        </label>
+                        <select
+                          value={upperValues[`${m.id}Type`] || ''}
+                          onChange={(e) => handleUpperChange(`${m.id}Type`, e.target.value)}
+                          className="w-full px-2.5 py-1.5 text-xs font-semibold text-stone-900 bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                        >
+                          <option value="">-- Select {m.label} Type --</option>
+                          {m.options.map((opt) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {upperValues[`${m.id}Type`] ? (
+                        <div className="relative animate-in fade-in duration-150">
+                          <label className="block text-[11px] font-semibold text-stone-700 mb-0.5">
+                            {m.label} Length Size:
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={upperValues[m.id] !== undefined ? upperValues[m.id] : ''}
+                              onChange={(e) => handleUpperChange(m.id, e.target.value)}
+                              placeholder={`e.g. ${m.defaultVal}`}
+                              className="w-full pl-2.5 pr-6 py-1.5 text-sm font-bold text-stone-900 bg-white border border-[#5B172E]/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                            />
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-400">
+                              "
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-[11px] text-stone-400 italic">
+                          Select {m.label.toLowerCase()} type above to enter size.
+                        </p>
+                      )}
                     </div>
-                  </div>
+                  ) : (
+                    <div key={m.id} className="bg-[#FAF8F5] p-2.5 rounded-xl border border-[#DECDB8] hover:border-[#9B783E] transition-colors">
+                      <label className="block text-xs font-semibold text-stone-700 mb-1 truncate">
+                        {idx + 1}. {m.label}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={upperValues[m.id] !== undefined ? upperValues[m.id] : ''}
+                          onChange={(e) => handleUpperChange(m.id, e.target.value)}
+                          placeholder={m.defaultVal}
+                          className="w-full pl-2.5 pr-6 py-1.5 text-sm font-bold text-stone-900 bg-white border border-[#DECDB8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B172E]/30"
+                        />
+                        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-400">
+                          "
+                        </span>
+                      </div>
+                    </div>
+                  )
                 ))}
               </div>
             </div>
@@ -184,7 +237,7 @@ export const MeasurementsModal = ({ order, isOpen, onClose, onSaveMeasurements, 
                   <span className="w-6 h-6 rounded-full bg-[#5B172E]/10 text-[#5B172E] flex items-center justify-center text-xs font-bold font-sans">
                     L
                   </span>
-                  Lower Body Measurement Points (1 to 11)
+                  Lower Body Measurement Points (1 to {LOWER_BODY_MEASUREMENTS.length})
                 </h3>
                 <span className="text-xs text-stone-400">Tape measure snug fit</span>
               </div>

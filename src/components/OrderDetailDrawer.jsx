@@ -295,7 +295,7 @@ export const OrderDetailDrawer = ({
                       onClick={() => onOpenMeasurements(order)}
                       className="w-full py-2 bg-[#FAF8F5] hover:bg-[#F2ECE1] border border-[#DECDB8] rounded-xl text-xs font-semibold text-[#5B172E] transition-colors"
                     >
-                      View Complete 28-Point Measurement Sheet
+                      View Complete Digital Measurement Sheet ({UPPER_BODY_MEASUREMENTS.length + LOWER_BODY_MEASUREMENTS.length} Points)
                     </button>
                   </div>
                 </div>

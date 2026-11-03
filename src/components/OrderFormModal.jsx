@@ -101,7 +101,12 @@ export const OrderFormModal = ({ isOpen, onClose, onSubmitOrder, nextOrderId }) 
     setHasLower(true);
 
     const presetUpper = {};
-    UPPER_BODY_MEASUREMENTS.forEach(m => presetUpper[m.id] = m.defaultVal);
+    UPPER_BODY_MEASUREMENTS.forEach(m => {
+      presetUpper[m.id] = m.defaultVal;
+      if (m.isDropdownWithSize) {
+        presetUpper[`${m.id}Type`] = m.defaultType || m.options[0];
+      }
+    });
     setUpperMeasurements(presetUpper);
 
     const presetLower = {};
@@ -487,53 +492,113 @@ export const OrderFormModal = ({ isOpen, onClose, onSubmitOrder, nextOrderId }) 
               </div>
             </div>
 
-            {/* UPPER BODY MEASUREMENTS (17 Fields) */}
+            {/* UPPER BODY MEASUREMENTS */}
             {hasUpper && (
               <div className="bg-[#FAF8F5] rounded-xl p-4 border border-[#DECDB8]">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-serif font-bold text-sm text-[#431021] flex items-center gap-1.5">
                     <Ruler className="w-4 h-4 text-[#9B783E]" />
-                    Upper Body Measurements (17 Parameters)
+                    Upper Body Measurements ({UPPER_BODY_MEASUREMENTS.length} Parameters)
                   </h4>
                   <span className="text-[11px] text-[#9B783E] font-medium">Standard / Tailored Inches</span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
                   {UPPER_BODY_MEASUREMENTS.map((item, index) => (
-                    <div key={item.id} className="bg-white p-2 rounded-lg border border-[#DECDB8]/80 shadow-2xs">
-                      <label className="block text-[11px] font-semibold text-stone-600 truncate mb-1">
-                        {index + 1}. {item.label}
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={upperMeasurements[item.id] || ''}
+                    item.isDropdownWithSize ? (
+                      <div key={item.id} className="bg-white p-2.5 rounded-lg border-2 border-[#5B172E]/20 hover:border-[#5B172E]/40 shadow-xs col-span-2 space-y-1.5 transition-all">
+                        <div className="flex items-center justify-between">
+                          <label className="block text-[11px] font-bold text-[#5B172E] truncate">
+                            {index + 1}. {item.label}
+                          </label>
+                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FAF5EE] text-[#9B783E] border border-[#DECDB8]">
+                            Dropdown + Length
+                          </span>
+                        </div>
+
+                        {/* Dropdown Options */}
+                        <select
+                          value={upperMeasurements[`${item.id}Type`] || ''}
                           onChange={(e) =>
                             setUpperMeasurements({
                               ...upperMeasurements,
-                              [item.id]: e.target.value
+                              [`${item.id}Type`]: e.target.value
                             })
                           }
-                          placeholder={item.defaultVal}
-                          className="w-full pr-5 pl-2 py-1 text-xs font-bold text-stone-800 bg-[#FAF8F5] border border-[#DECDB8] rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E]"
-                        />
-                        <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] text-stone-400 font-medium">
-                          "
-                        </span>
+                          className="w-full px-2 py-1 text-xs font-semibold text-stone-800 bg-[#FAF8F5] border border-[#DECDB8] rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E]"
+                        >
+                          <option value="">-- Select {item.label} --</option>
+                          {item.options.map((opt) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+
+                        {/* Length Size Input (appears when type selected) */}
+                        {upperMeasurements[`${item.id}Type`] ? (
+                          <div className="relative animate-in fade-in duration-150">
+                            <label className="block text-[10px] font-semibold text-stone-600 mb-0.5">
+                              Enter {item.label} Size:
+                            </label>
+                            <div className="relative">
+                              <input
+                                type="text"
+                                value={upperMeasurements[item.id] || ''}
+                                onChange={(e) =>
+                                  setUpperMeasurements({
+                                    ...upperMeasurements,
+                                    [item.id]: e.target.value
+                                  })
+                                }
+                                placeholder={`e.g. ${item.defaultVal}`}
+                                className="w-full pr-5 pl-2 py-1 text-xs font-bold text-stone-800 bg-white border border-[#5B172E]/40 rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E]"
+                              />
+                              <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] text-stone-400 font-medium">
+                                "
+                              </span>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-[10px] text-stone-400 italic">
+                            Select option above to enter size
+                          </p>
+                        )}
                       </div>
-                    </div>
+                    ) : (
+                      <div key={item.id} className="bg-white p-2 rounded-lg border border-[#DECDB8]/80 shadow-2xs">
+                        <label className="block text-[11px] font-semibold text-stone-600 truncate mb-1">
+                          {index + 1}. {item.label}
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={upperMeasurements[item.id] || ''}
+                            onChange={(e) =>
+                              setUpperMeasurements({
+                                ...upperMeasurements,
+                                [item.id]: e.target.value
+                              })
+                            }
+                            placeholder={item.defaultVal}
+                            className="w-full pr-5 pl-2 py-1 text-xs font-bold text-stone-800 bg-[#FAF8F5] border border-[#DECDB8] rounded focus:outline-none focus:ring-1 focus:ring-[#5B172E]"
+                          />
+                          <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] text-stone-400 font-medium">
+                            "
+                          </span>
+                        </div>
+                      </div>
+                    )
                   ))}
                 </div>
               </div>
             )}
 
-            {/* LOWER BODY MEASUREMENTS (11 Fields) */}
+            {/* LOWER BODY MEASUREMENTS */}
             {hasLower && (
               <div className="bg-[#FAF8F5] rounded-xl p-4 border border-[#DECDB8]">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-serif font-bold text-sm text-[#431021] flex items-center gap-1.5">
                     <Ruler className="w-4 h-4 text-[#9B783E]" />
-                    Lower Body Measurements (11 Parameters)
+                    Lower Body Measurements ({LOWER_BODY_MEASUREMENTS.length} Parameters)
                   </h4>
                   <span className="text-[11px] text-[#9B783E] font-medium">Standard / Tailored Inches</span>
                 </div>

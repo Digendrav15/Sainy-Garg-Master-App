@@ -163,16 +163,32 @@ export const UPPER_BODY_MEASUREMENTS = [
   { id: 'belly', label: 'Belly', defaultVal: '33' },
   { id: 'hip', label: 'Hip', defaultVal: '39' },
   { id: 'armhole', label: 'Armhole', defaultVal: '16.5' },
-  { id: 'sleeveLength', label: 'Sleeve Length', defaultVal: '18' },
+  { 
+    id: 'sleeveLength', 
+    label: 'Sleeve Length', 
+    isDropdownWithSize: true, 
+    options: ['Full Length', '3/4 Length', 'Half Length', 'Cap Length'],
+    defaultType: 'Full Length',
+    defaultVal: '18' 
+  },
   { id: 'bicep', label: 'Bicep', defaultVal: '12' },
   { id: 'elbow', label: 'Elbow', defaultVal: '10' },
   { id: 'wrist', label: 'Wrist', defaultVal: '6.5' },
+  { id: 'fullLength', label: 'Full Length', defaultVal: '40' },
   { id: 'kurtiLength', label: 'Kurti Length', defaultVal: '46' },
   { id: 'blouseLength', label: 'Blouse Length', defaultVal: '15' },
+  { id: 'topLength', label: 'Top Length', defaultVal: '26' },
+  { 
+    id: 'jacketLength', 
+    label: 'Jacket Length', 
+    isDropdownWithSize: true, 
+    options: ['Full Length', 'Short Length'],
+    defaultType: 'Full Length',
+    defaultVal: '24' 
+  },
 ];
 
 export const LOWER_BODY_MEASUREMENTS = [
-  { id: 'fullLength', label: 'Full Length', defaultVal: '40' },
   { id: 'skirtLength', label: 'Skirt Length', defaultVal: '42' },
   { id: 'pantLength', label: 'Pant Length', defaultVal: '38' },
   { id: 'pantWaist', label: 'Pant Waist', defaultVal: '30' },
@@ -183,4 +199,6 @@ export const LOWER_BODY_MEASUREMENTS = [
   { id: 'crotch', label: 'Crotch', defaultVal: '11' },
   { id: 'crotchRounding', label: 'Crotch Rounding', defaultVal: '26' },
   { id: 'bottomRounding', label: 'Bottom Rounding', defaultVal: '13' },
+  { id: 'pantFlare', label: 'Pant Flare', defaultVal: '22' },
+  { id: 'skirtFlare', label: 'Skirt Flare', defaultVal: '120' },
 ];
