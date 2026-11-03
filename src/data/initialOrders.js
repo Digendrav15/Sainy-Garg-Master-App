@@ -20,7 +20,7 @@ export const INITIAL_ORDERS = [
       hasUpper: true,
       hasLower: true,
       upper: { frontNeck: '7.5', backNeck: '9.0', shoulder: '14.0', upperChest: '34.0', chest: '36.0', dartPoint: '10.0', underBust: '30.0', waist: '30.0', belly: '33.0', hip: '39.0', armhole: '16.5', sleeveLength: '18.0', sleeveLengthType: 'Full Length', bicep: '12.0', elbow: '10.0', wrist: '6.5', fullLength: '42.0', kurtiLength: '46.0', blouseLength: '15.0', topLength: '26.0', jacketLength: '24.0', jacketLengthType: 'Full Length' },
-      lower: { skirtLength: '42.0', pantLength: '38.0', pantWaist: '30.0', hip: '39.0', thigh: '23.0', calf: '14.0', knee: '15.5', crotch: '11.0', crotchRounding: '26.0', bottomRounding: '13.0', pantFlare: '22.0', skirtFlare: '120.0' }
+      lower: { skirtLength: '42.0', pantLength: '38.0', pantWaist: '30.0', hip: '39.0', thigh: '23.0', knee: '15.5', calf: '14.0', crotch: '11.0', crotchRounding: '26.0', bottomRounding: '13.0', pantFlare: '22.0', skirtFlare: '120.0' }
     },
     stageData: {
       material_check: { dyeStatus: 'In Process', materialReadyDate: '2026-11-04', remarks: 'Sage Green custom dye shade #7B9075.' }
